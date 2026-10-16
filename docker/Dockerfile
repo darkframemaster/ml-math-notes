@@ -1,0 +1,8 @@
+FROM jupyter/base-notebook:latest
+
+RUN pip install transformers
+RUN pip install tensorflow==2.10.0 tensorflow-io==0.27.0
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+RUN pip install pandas matplotlib scikit-learn scipy
+RUN pip install plotly openai tiktoken
+
