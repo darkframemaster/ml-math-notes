@@ -1,8 +1,25 @@
-FROM jupyter/base-notebook:latest
+FROM quay.io/jupyter/scipy-notebook:latest
 
-RUN pip install transformers
-RUN pip install tensorflow==2.10.0 tensorflow-io==0.27.0
-RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-RUN pip install pandas matplotlib scikit-learn scipy
-RUN pip install plotly openai tiktoken
+# scipy-notebook 已含 pandas / matplotlib / scikit-learn / scipy / numpy 等
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends vim \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+USER ${NB_UID}
+
+# 先装 CPU 版 PyTorch，避免 accelerate 等依赖从 PyPI 拉下 CUDA 巨包
+RUN pip install --no-cache-dir \
+    torch torchvision torchaudio \
+    --index-url https://download.pytorch.org/whl/cpu \
+ && pip install --no-cache-dir \
+    transformers \
+    tensorflow \
+    plotly \
+    anywidget \
+    ipywidgets \
+    openai \
+    tiktoken \
+    datasets \
+    accelerate
