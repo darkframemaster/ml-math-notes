@@ -22,4 +22,13 @@ RUN pip install --no-cache-dir \
     openai \
     tiktoken \
     datasets \
-    accelerate
+    accelerate \
+    nltk \
+    kagglehub
+
+# The HMM notebook tokenizes and POS-tags the bundled story. Keep these small
+# NLTK models in the image so a clean checkout does not depend on a host cache.
+USER root
+RUN python -m nltk.downloader -d /usr/local/share/nltk_data \
+    punkt punkt_tab averaged_perceptron_tagger averaged_perceptron_tagger_eng
+USER ${NB_UID}

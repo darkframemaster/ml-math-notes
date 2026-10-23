@@ -7,6 +7,8 @@
 | Notebook | 说明 |
 |----------|------|
 | [notebooks/01_transformer_deep_dive.ipynb](notebooks/01_transformer_deep_dive.ipynb) | Transformer 深入理解（零基础）：Demo → 神经网络/词向量铺垫 → Attention 原理 → 迷你 GPT；含 3b1b 风格交互可视化（`ipywidgets` + `plotly`） |
+| [notebooks/02_gpt_step_by_step.ipynb](notebooks/02_gpt_step_by_step.ipynb) | 从规则/概率到 GPT 的方法演进（含 HMM 词性算例） |
+| [notebooks/03_hmm_pos_demo.ipynb](notebooks/03_hmm_pos_demo.ipynb) | 仅用《爱丽丝》全文：HMM 词性/生成 vs N-gram 续写对照（可控前缀/长度/条数） |
 
 交互控件说明：
 
@@ -37,4 +39,21 @@ cd docker
 
 浏览器打开 `./run.sh start` / `status` 打印的链接，进入 `notebooks/01_transformer_deep_dive.ipynb`，**Trust** 后按 Part 跑。
 
-> 交互图需要 `plotly` + `anywidget`。旧镜像缺包时请重新 `./build.sh`。
+> 交互图需要 `plotly` + `anywidget`。HMM demo 需要 `nltk` / `kagglehub`。旧镜像缺包时请重新 `./build.sh`（或对已有容器 `docker exec ml-math-notes-jupyter pip install nltk kagglehub`）。
+>
+> HMM demo 使用 NLTK 的 `punkt` / `punkt_tab` 分句模型和 `averaged_perceptron_tagger_eng` 词性模型。重建 Docker 镜像时会自动装入；已有容器可执行：
+>
+> ```bash
+> docker exec ml-math-notes-jupyter python -m nltk.downloader \
+>   -d /home/jovyan/work/.cache/nltk_data \
+>   punkt punkt_tab averaged_perceptron_tagger averaged_perceptron_tagger_eng
+> ```
+>
+> Brown 语料（与 [Kaggle nltkdata/brown-corpus](https://www.kaggle.com/datasets/nltkdata/brown-corpus) 同源）若要运行扩展算例，放在仓库 `.cache/nltk_data/`。若缺失可：
+>
+> ```bash
+> mkdir -p .cache/nltk_data/corpora
+> curl -L -o .cache/nltk_data/corpora/brown.zip \
+>   https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/brown.zip
+> unzip -qo .cache/nltk_data/corpora/brown.zip -d .cache/nltk_data/corpora
+> ```
