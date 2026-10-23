@@ -33,13 +33,83 @@ function sequential(t) {
   return rgb(lerp(247, 33, x), lerp(251, 113, x), lerp(255, 181, x));
 }
 
-function viridis(t) {
+function sampleStops(t, stops) {
   const x = clamp(t, 0, 1);
-  return rgb(
-    lerp(68, 253, x) * (x < 0.5 ? lerp(0.4, 1, x / 0.5) : 1),
-    lerp(1, 231, x),
-    lerp(84, 37, x),
-  );
+  for (let i = 0; i < stops.length - 1; i += 1) {
+    const [t0, c0] = stops[i];
+    const [t1, c1] = stops[i + 1];
+    if (x <= t1) {
+      const u = (x - t0) / (t1 - t0 + 1e-9);
+      return rgb(
+        lerp(c0[0], c1[0], u),
+        lerp(c0[1], c1[1], u),
+        lerp(c0[2], c1[2], u),
+      );
+    }
+  }
+  const last = stops[stops.length - 1][1];
+  return rgb(last[0], last[1], last[2]);
+}
+
+/** Low = deep purple valley, high = bright yellow ridge (readable terrain). */
+function terrain(t) {
+  return sampleStops(t, [
+    [0.00, [13, 8, 135]],
+    [0.18, [84, 2, 163]],
+    [0.35, [158, 28, 134]],
+    [0.52, [216, 70, 70]],
+    [0.70, [245, 144, 22]],
+    [0.85, [252, 209, 50]],
+    [1.00, [252, 255, 164]],
+  ]);
+}
+
+function drawContourLines(ctx, zz, grid, levels, toXY) {
+  const n = zz.length;
+  const edges = [
+    [0, 1],
+    [1, 2],
+    [2, 3],
+    [3, 0],
+  ];
+  for (const level of levels) {
+    ctx.beginPath();
+    for (let i = 0; i < n - 1; i += 1) {
+      for (let j = 0; j < n - 1; j += 1) {
+        const corners = [
+          [grid[j], grid[i], zz[i][j]],
+          [grid[j + 1], grid[i], zz[i][j + 1]],
+          [grid[j + 1], grid[i + 1], zz[i + 1][j + 1]],
+          [grid[j], grid[i + 1], zz[i + 1][j]],
+        ];
+        const hits = [];
+        for (const [a, b] of edges) {
+          const [, , za] = corners[a];
+          const [, , zb] = corners[b];
+          if ((za < level && zb >= level) || (zb < level && za >= level)) {
+            const u = (level - za) / (zb - za + 1e-12);
+            hits.push([
+              lerp(corners[a][0], corners[b][0], u),
+              lerp(corners[a][1], corners[b][1], u),
+            ]);
+          }
+        }
+        if (hits.length >= 2) {
+          const [x0, y0] = toXY(hits[0][0], hits[0][1]);
+          const [x1, y1] = toXY(hits[1][0], hits[1][1]);
+          ctx.moveTo(x0, y0);
+          ctx.lineTo(x1, y1);
+          if (hits.length >= 4) {
+            const [x2, y2] = toXY(hits[2][0], hits[2][1]);
+            const [x3, y3] = toXY(hits[3][0], hits[3][1]);
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x3, y3);
+          }
+        }
+      }
+    }
+    ctx.stroke();
+  }
 }
 
 function mountControls(parent, controls, state, onInput) {
@@ -423,7 +493,7 @@ function paintDescent(host, payload, state, memory) {
     zmax = Math.max(zmax, value);
   }));
   const padL = 64;
-  const padR = 16;
+  const padR = 42;
   const padT = 16;
   const padB = 46;
   const plot = 480;
@@ -436,17 +506,29 @@ function paintDescent(host, payload, state, memory) {
     padT + ((xmax - y) / (xmax - xmin)) * plot,
   ];
   const cell = plot / n;
+  const zspan = zmax - zmin + 1e-9;
   ctx.save();
   ctx.beginPath();
   ctx.rect(padL, padT, plot, plot);
   ctx.clip();
   for (let i = 0; i < n; i += 1) {
     for (let j = 0; j < n; j += 1) {
-      ctx.fillStyle = viridis((zz[i][j] - zmin) / (zmax - zmin + 1e-9));
-      const [x, y] = toXY(grid[j], grid[i]);
-      ctx.fillRect(x, y, cell + 0.5, cell + 0.5);
+      // Band the colors a bit so ridges / valleys read as terrain steps.
+      const t = Math.round(((zz[i][j] - zmin) / zspan) * 14) / 14;
+      ctx.fillStyle = terrain(t);
+      const x = padL + j * cell;
+      const y = padT + (n - 1 - i) * cell;
+      ctx.fillRect(x, y, cell + 0.6, cell + 0.6);
     }
   }
+  const levels = [];
+  for (let k = 1; k <= 8; k += 1) levels.push(zmin + (k / 9) * zspan);
+  ctx.strokeStyle = "rgba(255,255,255,0.55)";
+  ctx.lineWidth = 1.1;
+  drawContourLines(ctx, zz, grid, levels, toXY);
+  ctx.strokeStyle = "rgba(20,20,40,0.35)";
+  ctx.lineWidth = 0.8;
+  drawContourLines(ctx, zz, grid, levels.filter((_, idx) => idx % 2 === 0), toXY);
   ctx.restore();
   ctx.strokeStyle = "#222";
   ctx.lineWidth = 1;
@@ -474,8 +556,43 @@ function paintDescent(host, payload, state, memory) {
   ctx.rotate(-Math.PI / 2);
   ctx.fillText("参数 y", 0, 0);
   ctx.restore();
+  // Colorbar: low valley → high ridge
+  const barX = padL + plot + 6;
+  const barW = 10;
+  for (let k = 0; k < 64; k += 1) {
+    const t = 1 - k / 63;
+    ctx.fillStyle = terrain(t);
+    ctx.fillRect(barX, padT + (k / 64) * plot, barW, plot / 64 + 1);
+  }
+  ctx.strokeStyle = "#333";
+  ctx.strokeRect(barX + 0.5, padT + 0.5, barW, plot);
+  ctx.fillStyle = "#333";
+  ctx.font = "11px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText("高", barX + barW + 3, padT + 12);
+  ctx.fillText("低", barX + barW + 3, padT + plot);
+  // Mark the numerically solved local minimum of gdLoss.
+  const [vx, vy] = toXY(1.2685, -0.5869);
+  ctx.strokeStyle = "#fff";
+  ctx.fillStyle = "#111";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(vx - 7, vy);
+  ctx.lineTo(vx + 7, vy);
+  ctx.moveTo(vx, vy - 7);
+  ctx.lineTo(vx, vy + 7);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(vx, vy, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#fff";
+  ctx.stroke();
+  ctx.fillStyle = "#111";
+  ctx.font = "12px sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText("谷底（近似）", vx + 8, vy - 6);
   ctx.strokeStyle = "#E45756";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
   memory.path.forEach((point, index) => {
     const [x, y] = toXY(point.x, point.y);
@@ -487,14 +604,17 @@ function paintDescent(host, payload, state, memory) {
     const [x, y] = toXY(point.x, point.y);
     ctx.fillStyle = "#E45756";
     ctx.beginPath();
-    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.arc(x, y, 4.5, 0, Math.PI * 2);
     ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 1;
+    ctx.stroke();
   });
   const last = memory.path[memory.path.length - 1];
   host.replaceChildren(canvas);
   const note = document.createElement("div");
   note.style.cssText = "margin-top:6px;font:13px sans-serif;";
-  note.textContent = `当前位置 (${last.x.toFixed(3)}, ${last.y.toFixed(3)})，loss = ${gdLoss(last.x, last.y).toFixed(4)}，步数 = ${memory.path.length - 1}`;
+  note.textContent = `当前位置 (${last.x.toFixed(3)}, ${last.y.toFixed(3)})，loss = ${gdLoss(last.x, last.y).toFixed(4)}，步数 = ${memory.path.length - 1}；黄=高、紫=低，白线是等高线。`;
   host.appendChild(note);
 }
 
