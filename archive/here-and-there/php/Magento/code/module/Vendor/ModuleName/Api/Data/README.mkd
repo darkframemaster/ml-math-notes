@@ -1,0 +1,3 @@
+This directory `Api/Data` stores files about `Data interfaces` of a Module.
+
+The role of these interfaces is to **preserve data integrity**.

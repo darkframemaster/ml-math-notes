@@ -1,0 +1,4 @@
+### Document
+* [Quick Guide](http://www.panix.com/~elflord/unix/bash-tute.html)
+* [Operators: + - * / ](http://www.tldp.org/LDP/abs/html/ops.html)
+* [Math in Shell Scripts](http://faculty.salina.k-state.edu/tim/unix_sg/bash/math.html)

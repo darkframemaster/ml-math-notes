@@ -1,0 +1,370 @@
+#PHP
+## basic
+* `<?php ?>`
+    * All the php code should be written in these structure.
+* `_GET`
+    * A super-global variable in php witch stores the data of a GET method request.
+* `_POST`
+    * A super-global variable in php witch stores the data of a POST method request.
+* `_REQUEST`
+    * A super-global variable in php witch stores the data of a GET/POST method request.
+
+## operators
+* `>`
+* `<`
+* `<=`
+* `>=`
+* `==`
+* `!=`
+* `||`
+* `&&`
+* `!`
+
+## variables
+* `$`
+    * To define a variable: `$myName = 'darkframexue'`
+    * To get a variable's value.eg: `echo $myName`
+
+## build-in functions
+### Math Functions
+```
+<?php
+
+// round()
+// get part of a float number.
+$round = round(M_PI); // M_PI is a PHP constant.
+$round_decimal = round(M_PI, 4); // round pi to 4 place.
+
+// rand()
+echo rand();
+echo rand(1, 10);
+
+?>
+```
+
+
+## output
+* `echo`
+    * The way to output in php.
+* `print`
+
+## String
+```
+// '.' can connect strings.
+echo "Hello"." "."World!";
+
+// strlen()
+$length = strlen("string");
+
+// substr()
+$substring = substr("string", 0, 3);
+
+// strtoupper()
+$uppercase = strtoupper("string");
+
+// strtolower()
+$lowercase = strtolower("string");
+
+//strpos()
+// return index of the char or false
+strpos("darkframexue", "x");
+```
+
+## array
+```
+<?php
+$arrayName = array(1, 2, 3, 4, 5);
+
+// get value indexed
+echo $arrayName[index];
+echo $arrayName{index};
+$arrayName[index] = newValue;
+$arrayName{index} = newValue;
+
+// delete value
+unset($arrayName[index]);
+unset($arrayName);  // delete the whole list
+
+// array_push()
+// add a element to the end of the array
+array_push($arrayName, 6);
+
+// count()
+// return the number of the elements in array
+count($arrayName);
+
+// sort()
+sort($arrayName);
+
+// rsort()
+rsort($arrayName);
+
+// join()
+join(",", $arrayName);
+s
+?>
+```
+### associative array
+```
+<?php    
+        $food = array('pizza', 'salad', 'burger');
+        $salad = array('lettuce' => 'with',
+                   'tomato' => 'without',
+                   'onions' => 'with');
+    
+      // Looping through an array using "for".
+      // First, let's get the length of the array!
+      $length = count($food);
+    
+      // Remember, arrays in PHP are zero-based:
+      for ($i = 0; $i < $length; $i++) {
+        echo $food[$i] . '<br />';
+      }
+      foreach ($food as $element){
+        echo $element . '<br />';
+      }
+      
+      echo '<br /><br />I want my salad:<br />';
+    
+      // Loop through an associative array using "foreach":
+      foreach ($salad as $key=>$value) {
+        echo $value . ' ' . $key . '<br />';
+      }
+
+?>
+```
+
+## if statements
+```
+<?php
+if (condition){
+    do sth;
+}
+elseif {
+    do sth;
+}
+else{
+    do sth;
+}
+?>
+```
+
+## swich statements
+### curly brace syntax
+```
+<?php
+    switch (2) {
+        case 0:
+            do sth;
+            break;
+        case 1:
+            do sth;
+            break;
+        case 2:
+            do sth;
+            break;
+        default:
+            do sth;
+    }
+?>
+```
+
+```
+//falling through
+
+<?php
+    $i = 5;
+
+    switch ($i) {
+        case 0:
+            echo '$i is 0.';
+            break;
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            echo '$i is somewhere between 1 and 5.';
+            break;
+        case 6:
+        case 7:
+            echo '$i is either 6 or 7.';
+            break;
+        default:
+            echo "I don't know how much \$i is.";
+    }
+?>
+```
+### alternative syntax
+```
+<?php
+    switch ($i):
+        case 0:
+            echo '$i is 0.';
+            break;
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            echo '$i is somewhere between 1 and 5.';
+            break;
+        case 6:
+        case 7:
+            echo '$i is either 6 or 7.';
+            break;
+        default:
+            echo "I don't know how much \$i is.";    
+    endswitch;
+?>
+```
+
+## loop loop
+### for statement
+```
+for ($var = startcondition; $var = endcondition; change $var){
+    do sth;
+}
+
+
+// example
+<?php
+for ($i = 10; $i <= 100; $i += 10){
+    echo $i;
+}
+?>
+```
+### foreach statement
+```
+foreach ($fatherList as $element){
+    do sth;
+}
+
+<?php
+    $sentence = array("I'm ", "learning ", "PHP!");
+        
+    foreach ($sentence as $word) {
+        echo $word;
+    }
+?>
+```
+
+### while statement
+```
+while (condition){
+    do sth;
+}
+
+while (condition):
+    do sth;
+endwhile;
+
+do{
+    do sth;
+}while (condition);
+```
+
+## function
+```
+<?php
+    // define a function
+    function helloWorld($params){
+        do sth with params;
+    }
+    
+    // call the function
+    helloWorld($params);
+?>
+```
+
+## Object-Oriented Programming in php
+```
+
+    <?php
+        // The code below creates the class
+        class Person {
+            // Creating some properties (variables tied to an object)
+            public $isAlive = true;
+            public $firstname;
+            public $lastname;
+            public $age;
+
+            // Assigning the values
+            // like the __init__() function in python
+            public function __construct($firstname, $lastname, $age) {
+              $this->firstname = $firstname;
+              $this->lastname = $lastname;
+              $this->age = $age;
+            }
+
+            // Creating a method (function tied to an object)
+            public function greet() {
+              return "Hello, my name is " . $this->firstname . " " . $this->lastname . ". Nice to meet you! :-)";
+            }
+          }
+
+        // Creating a new person called "boring 12345", who is 12345 years old ;-)
+        $me = new Person('boring', '12345', 12345);
+
+        // Printing out, what the greet method returns
+        echo $me->greet();
+    ?>
+```
+###const & static
+```
+<?php
+/*
+* use const key word to define a unchangable variable without $ and publicy.
+* use static key word to use a class' property or method without having to create an instance of that class.
+* /
+class Immortal {
+    const alive = true;
+
+    public static function whatever(){
+        echo "I dont know what does Immortal mean";
+    }
+}
+
+// use Class name to access const/static value with ::
+echo Immortal::alive;
+Immortal::whatever;
+
+
+?>
+```
+###inheritance
+```
+<?php
+        class Vehicle {
+          public function honk() {
+            return "HONK HONK!";
+          }
+
+          // use key word final to stop override.
+          final public function run(){
+            return "Runing...";
+          }
+        }
+
+        // use key word extends
+        class Bicycle extends Vehicle{
+            public function honk(){
+                return "Beep beep!";
+            }
+
+        }
+        $bicycle = new Bicycle();
+        echo $bicycle->honk();
+?>
+```
+### build-in functions for Class
+```
+// is_a() use to find out if a particular object is an instance of a given class
+is_a($instance, "Class");
+
+// property_exists() to see if an object has a given property
+property_exists($instance, "property");
+
+// method_exists() to see if an object has a given method
+method_exists($instance, "method");
+```

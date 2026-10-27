@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is the test data structure of a blog -->
+
+<blogs>
+	<blog number="0">
+		<title>python</title>
+		<date>2016.8.10</date>
+		<body>This is a blog about python.</body>
+	</blog>
+	<blog number="1">
+		<title>php</title>
+		<date>2015.9.23</date>
+		<body>This is a blog about php.</body>
+	</blog>
+	<blog number="2">
+		<title>ruby</title>
+		<date>2015.3.21</date>
+		<body>This is a blog about ruby.</body>
+	</blog>
+</blogs>
+

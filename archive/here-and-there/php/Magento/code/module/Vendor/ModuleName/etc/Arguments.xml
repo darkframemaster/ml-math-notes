@@ -1,0 +1,48 @@
+<!-- Arguments -->
+<!-- This file is the examples of the arguments setting and you can use it in your di.xml file -->
+
+<!-- The following example create instance of `Magento\Core\Model\Session` with the class constructor argument `$sessionName` set to a value of `adminhtml` -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Core\Model\Session">
+        <arguments>
+            <argument name="sessionName" xsi:type="string">adminhtml</argument>
+        </arguments>
+    </type>
+</config>
+
+
+<!-- Arguments Examples -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Example\Type">
+        <arguments>
+            <!-- Pass simple string -->
+            <argument name="stringParam" xsi:type="string">someStringValue</argument>
+            <!-- Pass instance of Magento\Some\Type -->
+            <argument name="instanceParam" xsi:type="object">Magento\Some\Type</argument>
+            <!-- Pass true -->
+            <argument name="boolParam" xsi:type="boolean">1</argument>
+            <!-- Pass 1 -->
+            <argument name="intParam" xsi:type="number">1</argument>
+            <!-- Pass application init argument, named by constant value -->
+            <argument name="globalInitParam" xsi:type="init_parameter">Magento\Some\Class::SOME_CONSTANT</argument>
+            <!-- Pass constant value -->
+            <argument name="constantParam" xsi:type="const">Magento\Some\Class::SOME_CONSTANT</argument>
+            <!-- Pass null value -->
+            <argument name="optionalParam" xsi:type="null"/>
+            <!-- Pass array -->
+            <argument name="arrayParam" xsi:type="array">
+                <!-- First element is value of constant -->
+                <item name="firstElem" xsi:type="const">Magento\Some\Class::SOME_CONSTANT</item>
+                <!-- Second element is null -->
+                <item name="secondElem" xsi:type="null"/>
+                <!-- Third element is a subarray -->
+                <item name="thirdElem" xsi:type="array">
+                    <!-- Subarray contains scalar value -->
+                    <item name="scalarValue" xsi:type="string">ScalarValue</item>
+                    <!-- and application init argument -->
+                    <item name="globalArgument " xsi:type="init_parameter">Magento\Some\Class::SOME_CONSTANT</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

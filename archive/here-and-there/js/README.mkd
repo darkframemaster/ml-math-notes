@@ -1,0 +1,327 @@
+#JavaScript
+
+## what can we use JavaScript for? 
+* make websites respond to user interaction
+* build apps and games (e.g. blackjack)
+* access information on the Internet (e.g. find out the top trending words on Twitter by topic)
+* organize and present data (e.g. automate spreadsheet work; data visualization)
+
+## opetators:
+* `>`
+* `<`
+* `<=`
+* `>=`
+* `===` Equal to
+* `!==` Not equal to
+* `%`
+* `&&`
+* `||`
+* `!`
+
+## datatype:
+* number:
+    * `4`,`3.14159`
+* string
+    * `a-z`,`what ever it is.`
+    * `"string".length`
+    * `"some word".substring(0,3)` is `so`
+* booleans:
+    * `True`,`False`,`1`,`0`,`5 > 4`
+
+
+## input & output
+* **input:**
+    * `prompt("what do you want to input?");`
+* **output**
+    * `confirm("information");`
+    * `console.log("information");`
+
+## syntax
+### variables
+```
+/* define a variable */
+
+var anyVariable = "initvalue";
+```
+
+### array
+```
+/* define a array */
+
+var cities = ["Melbourne", "Amman", "Helsinki", "NYC", 1, true];
+
+for (var i = 0; i < cities.length; i++) {
+    console.log("I would like to visit " + cities[i]);
+}
+```
+
+### function
+```
+/* define a function:
+*  { } must end with a semi-colon.
+*/
+
+var functionName = function(param1, param2, ...){
+    do sth with params;
+};
+```
+
+### if structure
+```
+if(condition){
+    do sth;
+}
+
+if(condition){
+    do sth;
+}
+else if{
+    do sth;
+}
+else{
+    do sth;
+}
+```
+
+### switch statement
+```
+var lunch = prompt("What do you want for lunch?","Type your lunch choice here");
+
+switch(lunch){
+  case 'sandwich':
+    console.log("Sure thing! One sandwich, coming up.");
+    break;
+  case 'soup':
+    console.log("Got it! Tomato's my favorite.");
+    break;
+  case 'salad':
+    console.log("Sounds good! How about a caesar salad?");
+    break;
+  case 'pie':
+    console.log("Pie's not a meal!");
+    break;
+  default:
+    console.log("Huh! I'm not sure what " + lunch + " is. How does a sandwich sound?");
+}
+```
+
+### for structure
+```
+for(var i=0; i<100; i++){
+    do sth;
+}
+```
+
+### while loop
+```
+/* Use while when you don't know in advance when to stop looping */
+
+while(condition){
+    do sth;
+}
+
+/* Use `do/while` structure to make sure your loop runs at least one time */
+do{
+    do sth;
+}while
+```
+
+### object
+**property in object**
+```
+/* define a object */
+
+var objectName = {
+    key: value,
+    key: value,
+    ...
+    key: value
+};
+
+
+/* another way */
+var objectName = new Object();
+
+/* give value to a key */
+objectName['key'] = value;
+objectName.key = value;
+```
+
+**for structure for object**
+```
+for(var property in Object){
+    do sth with property;
+}
+```
+
+**method in object**
+```
+/* define a method in the object */
+var objectName = {
+    methodName = function(params){
+        do sth;
+    }
+};
+// no need for a ; at the end of the defination of method in this way.
+
+var objectName = new Object();
+objectName.methodName = function (params){
+    do sth;
+};
+
+/* define a method out of a object using this */
+var methodName = function(params){
+    do sth with keyword `this`.
+};
+objectName.methodName = methodName;
+```
+
+**constructor**
+```
+/*
+* define a constructor.
+* use key-word new to construct a new variable.
+* you can also define a function for the constructor.
+*
+* The constructor is quiet like a Class.
+* The way of define a constructor is different from a function.
+*/
+
+function Dog(age, name){
+    this.age = age;
+    this.name = name;
+
+    this.describe = function(){
+        console.log("This is a dog named "+this.name+" it is "+this.age+" years old");
+    };
+}
+// no ; at the end of the defination.
+
+var singleDog = new Dog(22, 'xuehao');
+singleDog.describe();
+```
+
+## object-oriented programming in JS
+### constructor & class
+When you make a constructor, you are in fact defining a new class.
+
+### Public and Private
+In JavaScript all properties of an object are **automatically public**.
+
+**Public** means that they can be accessed outside the class.**key word:**`this`.
+
+**Private** variables are pieces of information you do not want to publicly share, and they can only be directly accessed from within the class.**key word:**`var`.Using private property in method without `this`.
+
+```
+function Person(first,last,age) {
+   // public property
+   this.firstname = first;
+   this.lastname = last;
+   this.age = age;
+   // private property
+   var bankBalance = 7500;
+
+   // private method
+   var returnBalance = function() {
+      return bankBalance;
+   };
+   // public method
+   this.askTeller = function(){
+        return returnBalance;
+   };
+}
+
+var john = new Person('John','Smith',30);
+console.log(john.returnBalance);
+var myBalanceMethod = john.askTeller();
+var myBalance = myBalanceMethod();
+console.log(myBalance);
+
+
+```
+###prototype
+>prototype ：蓝本，原型
+
+```
+// in JS Object.prototype is also a Object.
+var prototypeType = typeof Object.prototype;
+console.log(prototypeType);
+
+var hasOwn = Object.prototype.hasOwnProperty("hasOwnProperty");
+console.log(hasOwn);
+```
+
+### inherits
+```
+// the original Animal class and sayName method
+function Animal(name, numLegs) {
+    this.name = name;
+    this.numLegs = numLegs;
+}
+Animal.prototype.sayName = function() {
+    console.log("Hi my name is " + this.name);
+};
+
+// define a Penguin class
+function Penguin(name){
+    this.name = name;
+    this.numLegs = 2;
+}
+
+// set its prototype to be a new instance of Animal
+// This is inherit.
+Penguin.prototype = new Animal();
+
+var penguin = new Penguin("penguin");
+penguin.sayName();
+```
+
+### use `prototype` to add a method for class: `Class.prototype.method = function(){}`
+```
+/* you can add a method for a special object(instance) */
+
+function Dog (breed) {
+  this.breed = breed;
+};
+
+// here we make buddy and teach him how to bark
+var buddy = new Dog("golden Retriever");
+Dog.bark = function() {
+  console.log("Woof");
+};
+buddy.bark();
+
+// here we make snoopy
+var snoopy = new Dog("Beagle");
+// it does not works!
+snoopy.bark();
+```
+
+```
+/* you can add a method for the class using prototype */
+
+function Dog (breed) {
+  this.breed = breed;
+};
+
+// here we make buddy and teach him how to bark
+var buddy = new Dog("golden Retriever");
+Dog.prototype.bark = function() {
+  console.log("Woof");
+};
+buddy.bark();
+
+// here we make snoopy
+var snoopy = new Dog("Beagle");
+// this time it works!
+snoopy.bark();
+```
+
+## build-in functions
+* `isNaN(var)`
+    * return `true` or `false`.
+* `typeof things`
+    * return a `string` object.
+    * `console.log(typeof 1)` return `number`.
+* **Object functions**
+    * `Object.hasOwnProperty('property');`

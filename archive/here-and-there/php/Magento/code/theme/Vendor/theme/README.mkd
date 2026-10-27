@@ -1,0 +1,67 @@
+# Create a theme
+The root directory for a theme is `<Your magento install dir>/app/design/frontend/[Vendor]/[themeName]`,and assume that this is the directory and we will build our themes here.
+
+More details about theme file sturcture please visit [Theme components](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/theme-structure.html)
+
+## Things to do in this directory
+### Create a storefront theme
+1. Set Magento mode to developer
+2. Create a theme directory
+    * `cd <path to magento>/app/design/frontend`
+    * `mkdir {Ventor}`
+    * `mkdir {Ventor}/{theme_name}`
+
+### Declare your theme
+* Add or copy from an existing `theme.xml` to your theme directory `app/design/frontend/<Vendor>/<theme>`
+* if you change the title or parent theme of the `theme.xml` file after a theme already registered you need to reload to make it work.
+
+
+### Add registration.php
+* Add a `registration.php` file in `<path to magento>/app/design/frontend/Ventor/theme_name/`
+
+
+### Configure images
+> Product image sizes and other properties used on the storefront are configured in a `view.xml` configuration file. It is required for a theme, but is optional if exists in the **parent theme**.
+
+Here we use the default theme `blank`'s `view.xml` as an example.You can also find it in directory:`<Your magento path>/vendor/magento/theme-frontend-blank/etc`.
+
+More details in `./etc/` directory.
+
+### Create directores for static files
+> Your theme will likely contain several types of static files: styles, fonts, JavaScript and images. Each type should be stored in a separate sub-directory of web in your theme folder:
+
+```
+app/design/<area>/<Vendor>/<theme>/
+├── web/
+│ ├── css/
+│ │ ├── source/ 
+│ ├── fonts/
+│ ├── images/
+│ ├── js/
+```
+
+> During theme development, when you change any files stored here, you need to clear `pub/static` and `var/view_preprocessed` directories, and then reload the pages. Otherwise the old versions of files are displayed on the storefront.
+
+your theme directory structure now
+
+```
+app/design/frontend/<Vendor>/
+├── <theme>/
+│   ├── etc/
+│   │   ├── view.xml
+│   ├── web/
+│   │   ├── images
+│   │   │   ├── logo.svg
+│   ├── registration.php
+│   ├── theme.xml
+│   ├── *composer.json
+```
+
+### Theme logo
+> In the Magento application, the default format and name of a logo image is `logo.svg`. When you put a logo.svg image in the conventional location, which is `<theme_dir>/web/images` directory, it is automatically recognized as theme logo. It is displayed in your store page header once the theme is applied.You can use a logo file with a different name and format(different from `logo.svg` or the parent logo file name if there is one), but you might need to **declare it**.
+
+* To declare a theme logo, add an extending `<theme_dir>/Magento_Theme/layout/default.xml` layout.
+* If your logo file is `my_logo.png` sized 300*300px, you need to declare as file `<theme_dir>/Magento_Theme/layout/default.xml`
+
+### Theme registration
+Once you open/reload the Magento Admin page having added the theme files to the files system, you theme gets registered and added to the database.

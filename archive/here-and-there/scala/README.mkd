@@ -1,0 +1,3 @@
+# About scala
+## install scala in ubuntu
+`sudo apt-get install scala`

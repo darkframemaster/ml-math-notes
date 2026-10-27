@@ -1,0 +1,13 @@
+/*Add your CSS below!*/
+
+.fancy{
+    font-family: cursive;
+    color: violet;
+}
+#serious{
+    font-family: Courier;
+    color: #8c8c8c;
+}
+p:nth-child(3){
+    font-size: 26px;
+}

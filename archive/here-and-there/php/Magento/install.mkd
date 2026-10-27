@@ -1,0 +1,24 @@
+# Magento
+
+## install
+* get source
+	* Download the current version of Magento Package
+	* use composer and git repo
+		* set up php,mysql,apache
+		* set up composer
+		* clone a repo
+		* `composer install` in the root direction of cloned repo
+* Set permission
+	* `sudo chmod 755 var ventor`
+	* other permission
+* Create database for the app
+* Store it using apache or any server.
+* Install step by step.
+
+### issues
+* [All Errors during installation](http://devdocs.magento.com/guides/v2.1/install-gde/trouble/php/tshoot_install-main.html)
+* [Setup Wizard installazion stops at about 70%](http://devdocs.magento.com/guides/v2.1/install-gde/trouble/php/tshoot_70pct.html)
+* [After installing, images and stylesheets do not load; only text displays, no graphics](http://devdocs.magento.com/guides/v2.1/install-gde/trouble/tshoot_no-styles.html)
+    * `magento setup:static-content:deploy`
+* error in directory var:
+    * delete files in var and reload webpage

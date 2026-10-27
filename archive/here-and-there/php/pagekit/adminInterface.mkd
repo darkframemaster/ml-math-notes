@@ -1,0 +1,31 @@
+# Admin interface
+## site
+### Add pages or links
+#### Type: Page
+Pages are basically the equivalent(等同) to a static webpage.Typically, you would use pages for content like an `About us` or `Contact` page.For editorial content, however, you would rather use blog posts.
+
+	`site`->`add page`->`page`
+
+In the `Content` tab you can edit the page's main content, such as the article body, title and slug.Additionally, you can enter the page's title, which will be displayed in the frontend menu, enable or disable the page and restrict(限制) access to certain user roles.
+
+The `Theme` tab holds the theme options that are specific to the theme your site is using.
+
+Finally, in the `Meta` tab you can enter a title and description text for search engines, accessibillty and sharing on social media.
+
+#### Type: Link
+Links are the most flexible type, since they can create a menu entry linking to any internal or external URL.
+
+	`site`->`add page`->`link`
+
+In the `Settings` tab you can manually fill the URL field.Alternatively,hit the `Select` button and use the link picker. It allows you to select the extension and the view that you want to link to. You can set the link type to be a normal link, an alias of another link or redirect.
+
+The `Theme` tab conceals theme specific settings and in the `Meta` section you can enter a title and description text for search engines, accessibility and sharing on social media.
+
+### Widgets
+In the Widgets section you'll find an overview of all widgets sorted according to the position they are publisked in. You can drag and drop items to change the **rendering order** inside a position with multiple widgets.
+
+You can edit the widgets by clicking their title.
+
+> Be careful when deleting widgets, as there is no trash to recover them from, once deleted.
+
+

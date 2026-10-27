@@ -1,0 +1,46 @@
+#!/usr/bin/env python2.7
+
+__author__ = 'darkframexue'
+
+import socket
+
+def client_save(web_ip,data):
+	'''
+	save the page in a file
+	'''
+	header,html=data.split(b'\r\n\r\n',1)
+	print(header.decode('utf-8'))
+
+	with open(web_ip+'.html','wb')as f:
+		f.write(html)
+		
+
+def crawl_from(web_ip,port_num,choose):
+	# create socket:
+	# AF_INET for ipv4,AF_INET6 for ipv6.SOCK_STREAM for stream tcp
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)	
+	# create connection
+	s.connect((web_ip, int(port_num)))
+
+	# send a http file
+	s.send(b'GET / HTTP/1.1\r\nHost:'+web_ip+'\r\nConnection: close\r\n\r\n')
+
+	#receive data
+	buffer=[]
+	while True:
+		d=s.recv(1024)
+		if d:
+			buffer.append(d)
+		else:
+			break
+	data="".join(buffer)
+	s.close()
+	if choose=='Y' or choose=='y':
+		client_save(web_ip,data)
+
+if __name__ == '__main__':
+	link=raw_input("input a hostname:")
+	port=raw_input("input port number:")
+	yes_no=raw_input("do you want to save the webpage?(y for yes,n for no):")
+	crawl_from(link,port,yes_no)
+

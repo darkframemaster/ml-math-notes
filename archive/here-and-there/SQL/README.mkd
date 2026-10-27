@@ -1,0 +1,159 @@
+# SQL
+
+## opetators
+* `=`
+* `!=`
+* `>`
+* `<`
+* `>=`
+* `<=`
+
+## commands statement 
+A `statement` is text that the database recognizes as a valid command.Statements always end in a semi-colon `;`.
+### CREATE TABLE
+```
+CREATE TABLE celebs (id INTEGER, name TEXT, age INTEGER);
+```
+### INSERT A ROW
+```
+INSERT INTO celebs (id, name, age) VALUES (1, 'darkframexue', 22);
+```
+### UPDATE DATA
+```
+UPDATE celebs 
+SET age = 22
+WHERE id = 1;
+```
+### ALTER TABLE
+```
+--Add a new column to the table
+ALTER TABLE celebs ADD COLUMN twitter_handle TEXT;
+```
+### DELETE ROWS
+```
+DELETE FROM celebs WHERE twitter_handle IS NULL;
+```
+
+## Query result
+```
+SELECT * FROM celebs;
+```
+### DISTINCT
+```
+-- DISTINCT is used to return unique values in the result set.
+SELECT DISTINCT genre FROM movies;
+```
+### WHERE
+```
+-- WHERE to filter the result
+SELECT * FROM movies WHERE rating>8;
+```
+### LIKE
+```
+SELECT * FROM movies WHERE name LIKE 'Se_en';
+SELECT * FROM movies WHERE name LIKE '%man%';
+```
+### BETWEEN
+```
+-- The values can be numbers, text or dates
+SELECT * FROM movies WHERE name BETWEEN 'A' AND 'J';
+SELECT * FROM movies WHERE year BETWEEN 1990 AND 2000;
+```
+### AND & OR
+```
+SELECT * FROM movies WHERE year BETWEEN 1990 and 2000 AND genre='comedy';
+SELECT * FROM movies WHERE year = 1980 OR genre = 'comedy';
+```
+### ORDER BY & LIMIT
+```
+SELECT * FROM movies ORDER BY imdb_rating DESC;
+SELECT * FROM movies ORDER BY imdb_rating ASC LIMIT 3;
+```
+### COUNT
+```
+-- COUNT() is used for counting number of the columns.
+SELECT COUNT(*) FROM fake_apps;
+SELECT COUNT(*) FROM fake_apps WHERE price = 0;
+```
+### GROUP BY
+```
+SELECT price, COUNT(*) FROM fake_apps GROUP BY price;
+SELECT price, COUNT(*) FROM fake_apps WHERE downloads = 20000 GROUP BY price;
+```
+### SUM
+```
+-- SUM() will takes the name of a column as an argument and reture the sum 
+-- of all the values
+SELECT SUM(downloads) FROM fake_apps;
+SELECT category, SUM(downloads) FROM fake_apps GROUP BY category;
+```
+### MAX & MIN
+```
+-- MAX() takes the name of a column as an argument and returns the largest 
+-- value in that column.
+SELECT MAX(downloads) FROM fake_apps;
+
+-- To return the names of the most downloads apps in each category.
+SELECT name, category, MAX(downloads) FROM fake_apps GROUP BY category;
+
+SELECT MIN(downloads) FROM fake_apps;
+```
+### AVG
+```
+-- AVG() function works by taking a column name as an argument and returns 
+-- the average value of a particular column.
+SELECT AVG(downloads) FROM fake_apps;
+SELECT price, AVG(downloads) FROM fake_apps GROUP BY price;
+```
+### ROUND
+```
+-- ROUND() is a function that takes a column name and an integer as an arg.
+-- It rounds the values in the column to the number of decimal places 
+-- specified by the integer.(小数点)
+SELECT price, ROUND(AVG(downloads), 2) FROM fake_apps GROUP BY price;
+SELECT price, ROUND(AVG(downloads)) FROM fake_apps GROUP BY price;
+```
+## Work with multi-tables
+### Primary key
+A **primary key** serves as a unique identifier for each row or record in a given table.
+
+By specifying a column is the `PRIMARY KEY`,SQL makes sure that
+* None of the values in this column are `NULL`
+* Each value in this column is unique
+### Foreign key
+A foreign key is a column that contains the primary key of another table in the database.We use foreign keys and primary keys to connect rows in two different tables.Foreign key **do not** need to be unique and can be `NULL`.
+
+### Query multiple tabls
+#### Cross join
+Use `SELECT` statement with multiple table names separated by a comma.
+
+```
+SELECT albums.name, albums.year, artists.name FROM albums, artists;
+```
+
+It combines every row of the `artists` table with every row of the `albums` table.
+#### Inner join
+An inner join will combine rows from different tables if the **join condition** is true.
+```
+SELECT * FROM albums JOIN artists ON albums.artist_id = artists.id;
+```
+#### Outer join
+Outer join **do not** require the join condition to be met.Instead, every row in the left table is returnd in the result set, and if the join condition is not met, then `NULL` values are used to fill in the columns from the right table.
+```
+SELECT * FROM albums LEFT JOIN artists ON albums.artist_id = artists.id;
+```
+#### AS
+`AS` is a keyword to rename a column or table using an alias.
+```
+SELECT
+	albums.name AS 'Album',
+	albums.year,
+	artists.name AS 'Artist'
+FROM
+	albums
+JOIN artists ON
+	albums.artist_id = artists.id
+WHERE 
+	albums.year > 1980;
+```
+

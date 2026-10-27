@@ -1,0 +1,54 @@
+#HTML
+## Tags
+* `<!DOCTYPE html>`
+* `<html></html>`
+* `<head></head>`
+* `<body></body>`
+* `<h?></h?>`
+* `<p></p>`
+    * paragraph tag
+* `<a href:"link">...</a>`
+    * link tag
+* `<img />`
+    * img tag
+* About List:
+    * `<ol></ol>`
+        * ordered lists tag
+    * `<ul></ul>`
+        * unordered lists tag
+    * `<li></li>`
+        * list tag
+* `<strong></strong>`
+* `<em></em>`
+    * To *italicize* words for emphasis.
+* `<table></table>`
+    * `<thead>table head</thead>`
+    * `<tbody>table body</tbody>`
+    * `<th>table head data<th>`
+        * `<th colspan="2">make the title sapns two cols</th>`
+    * `<tr>table row</tr>`
+    * `<td>table data</td>`
+* `<div></div>`
+    * allows you to divide your webpage up into pieces you can style indeividually
+* `<span></span>`
+    * allows you to control styling for smaller part of your page
+    * `<p>My favorite font is <span style="color: red; font-family: Impact">Impact</span>!</p>`
+
+
+## Attributes
+* `src`
+* `href`
+    * tag for hyperlink.
+* `style`
+    * `font-size`
+        * `<p style="font-size: 20px">for example</p>`
+    * `color`
+        * `<h1 style="font-size: 40px; color: red">Example</h1>`
+    * `font-family`
+        * `Arial,Verdana,Impact,Courier,Garamond`
+        * `<li style="font-size: 10px; font-family: Impact">This item is small Impact.</li>`
+    * `background-color`
+    * `text-align`
+        * `center,left,right`
+    * `width` & `height`
+        * `<div style="width:50px; height:50px; background-color:yellow"></body>`

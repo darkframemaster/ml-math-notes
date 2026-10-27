@@ -1,0 +1,32 @@
+# Portfolio
+## Installation
+* sign in to your admin and go to: `Marketplace`->`extensions`.
+* find `Protfolio` and install it.
+
+## What for
+Portfolio helps you to create a beautiful portfolio in your Pagekit site. This extension creates a portfolio front-page with an overview of all your projects in a dynamic grid. Of course all information can be displayed in overlays and lightboxes. You can add custom data-fields to your projects to show the properties that are important for your type of project.
+
+## Features
+* Manage multiple images with description and title
+* Filter by tags
+* Add custom data to your projects
+
+## How to use
+### Link your portfolio
+* Go to: `Site`->`add page`->`link`.
+* Add a link to `/portfolio`.
+
+### Add a project
+* Go to: `Portfolio`.
+* Click `ADD PROJECT`.
+* Finish the basic information and add images to the project(you can choose a folder to store your images in one project by setting `IMAGE FOLDER` in `IMAGES`).
+
+### Portfolio settings
+This is the setting for a over view page of all the projects: `<pagekitPath>/portfolio`.
+#### Project columns
+#### Teaser settings
+These settings is for each block of project displayed on page `<pagekitPath>/portfolio`.
+
+
+### Project settings
+The settings for project will give effects on the project's page.For example,if you add a project `travel`,then the settings will work with page `<pagekitPath>/portfolio/travel`.

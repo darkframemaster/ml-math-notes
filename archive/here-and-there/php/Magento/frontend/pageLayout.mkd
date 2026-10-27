@@ -1,0 +1,24 @@
+# Page layout
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/layouts/layout-types.html)
+
+Allowed layout instructions:
+
+* `<container>`
+* `<referenceContainer>`
+* `<move>`
+* `<update>`
+
+## Page layouts declaration
+To be able to use a layout for actual page rendering, you need to declare it in `layout.xml`.
+
+Conventionally layout declaration file can be located in one of the following locations:
+	
+* Module layout declarations: `<module_dir>/view/frontend/layouts.xml`.
+* Theme layout declaration: `<theme_dir>/<Namepspace>_<Module>/layouts.xml`
+
+# Page configuration
+## Page configuration structure and allowed layout instructions
+
+# Generic layout
+## Generic layout structure and allowed layout instructions
+

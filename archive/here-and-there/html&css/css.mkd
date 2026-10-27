@@ -1,0 +1,121 @@
+#CSS
+
+## When use CSS
+1. You can apply the same formatting to several HTML elements without rewriting code over and over.
+2. You can apply similar appearance and formatting to several HTML pages from a single CSS file.
+
+## CSS
+* `<link type="text/css" rel="stylesheet" href="filename" />`
+* `em` & `pix`
+    * one em is equal to the default font size on whatever screen the user is using.
+    * one pixel is a dot on your computer screen.
+* CSS build in font-family:
+    * serif
+    * sans-serif
+    * cursive
+
+## CSS property
+>Those property used in HTML can also used in CSS.
+
+* `border`
+    * `border: 1px dashed blue;`
+    * `border: 2px soild black;`
+    * `border-radius: 5px;`
+* `text-decoration`
+    * only for links
+    * `text-decoration: none;`
+* `font-weight`:
+    * `font-weight: bold;`
+
+### Backup values
+For example, if you write:
+```
+p {
+    font-family: Tahoma, Verdana, sans-serif;
+}
+/* Tahoma and Verdana is the option.*/
+```
+CSS will first try to apply Tahoma to your paragraphs. If the user's computer doesn't have that font, it will try Verdana next, and if that doesn't work, it will show a default sans-serif font.
+
+### classes & id
+> classes are useful when you have a bunch of elements that should all receive the same styling. Rather than applying the same rules to several selectors, you can simply apply the same class to all those HTML elements, then define the styling for that class in the CSS tab.
+
+* Classes are identified in CSS with a `.`
+
+> IDs, on the other hand, are great for when you have exactly one element that should receive a certain kind of styling.
+
+* IDs are identified in CSS with a pound sign `#`
+
+### Multiple Selectors
+To grab tags that are inside other tags:
+```
+div div p{
+    color: red;
+}
+```
+Use `>` to grab direct children
+```
+div > p{
+    color: blue;
+}
+```
+
+### One selector to rule them all
+```
+* {
+    border: 1px soild red;
+}
+```
+
+### Witch is more specific
+`IDs` > `classes` > `ul li p` > `p`
+
+### pseudo-class(伪类) selectors
+>A pseudo-class selector is a way of accessing HTML items that aren't part of the document tree.For instance, it's very easy to see where a link is in the tree. But where would you find information about whether a link had been clicked on or not? It isn't there!
+
+>Using pseudo selectors, you can control the appearance of unvisited and visited links—even links the user is hovering over but hasn't clicked!
+
+```
+/* CSS syntax for pseudo selector */
+
+selector:pseudo-class_selector{
+    property: value;
+}
+```
+
+* pseudo-class for links
+    * `a:link`: An unvisited link.
+    * `a:visited`: A visited link.
+    * `a:hover`: A link you're hovering your mouse over.
+* `first-child`
+    * It's used to apply styling to only the elements that are the first children of their parents.
+* `nth-child(?)`
+    * `a:nth-child(3)`: select the third link tag
+
+### position property
+* `display`
+    * `block`: This makes the element a block box. It won't let anything sit next to it on the page! It takes up the full width.
+    * `inline-block`:  This makes the element a block box, but will allow other elements to sit next to it on the same line.
+    * `inline`: This makes the element sit on the same line as another element, but without formatting it like a block. It only takes up as much width as it needs (not the whole line).
+    * `none`: This makes the element and its content disappear from the page entirely!
+* `margin`:
+    * The space **around** the element.
+    * `auto`: Put equal left and right margins on our element.
+    * `margin: 1px 2px 3px 4px;` = `top-margin:1px; right-margin:2px; bottom-margin:3px; left-margin: 4px;`
+    * The value can be nagtive number.
+* `border`:
+    * The **edge** of the element.
+* `padding`:
+    * The spacing **between the content and the border**.
+* `float`:
+    * You can think of the HTML page as sort of like a sea, and floating elements as boats on it: all the boats have positions on the sea, and they all see and steer clear of each other.
+    * `float: right;`
+    * `left`
+* `clear`:
+    * it will clear elements out of the way of the elements floating on the `left` or `right`.
+    * `clear: left,right,both;`
+* `position`
+    * `position: absolute,relative,fixed`
+* `z-index`:
+    * the higher an element's z-index, the higher it will be "stacked" on the page. 
+    * `z-index: 1;`

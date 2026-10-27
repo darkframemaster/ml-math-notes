@@ -1,0 +1,92 @@
+#Git
+## The structure of a project
+A Git project can be thought of as having three parts.
+
+1. *A Working Directory:* where you'll be doing all the work: creating, editing, deleting and organizing files
+2. *A Staging Area:* where you'll list changes you make to the working directory
+3. *A Repository:* where Git permanently stores those changes as different versions of the project
+
+The Git workflow consists of:
+
+1. Editing files in the working directory;
+2. Adding files to the staging area;
+3. And saving changes to a Git repository.
+
+In Git, we save changes with a commit, which we will learn more about in this lesson.
+
+## commands
+### workflow
+* `git init [projectName]`
+    * creates a new Git repository
+* `git add [fileName]`
+    * adds files from the working directory to the staging area
+* `git diff [fileName]`
+    * shows the difference between the working directory and the staging area
+* `git status`
+    * inspects the contents of the working directory and staging area
+* `git commit -m "message"`
+    * permanently stores changes from the staging area inside the repository.
+
+### informations
+* `git log`
+    * shows a list of all previous commits
+    * `git log --graph --pretty=oneline --abbrev-commit`
+* `git show HEAD`
+* `git diff branch_one branch_two`
+* `git diff commit_sha_1 commit_sha_2`
+
+### backtrack
+* `git checkout HEAD [filename]`
+    * **undo-edit**: Restore the file in your **working directory** to look exactly as it did when you last made a commit.
+* `git reset [--mode] HEAD [filename]`
+    * **undo-stage**: Unstages file changes in the staging area. directory.
+    * options of mood:
+        * hard
+        * soft
+        * mixed
+        * merged
+        * keep
+
+### branch
+* `git branch`
+    * Lists all a Git project's branches.
+* `git branch new_branch`
+    * create a new branch
+* `git checkout branch_name`
+    *  Used to switch from one branch to another.
+* `git merge branch_name`
+    * Merge `branch_name` to current branch.
+* `git branch -d branch_name`
+    * delete the branch specified.
+
+### alias
+* `git config --global alias.graphlog 'log --graph --pretty=oneline --abbrev-commit'`
+
+## work with a team
+The workflow for Git collaborations typically follows this order:
+
+1. Fetch and merge changes from the remote
+2. Create a branch to work on a new project feature
+3. Develop the feature on your branch and commit your work
+4. Fetch and merge from the remote again (in case new commits were made while you were working)
+5. Push your branch up to the remote for review
+
+Steps 1 and 4 are a safeguard against merge conflicts, which occur when two branches contain file changes that cannot be merged with the git merge command. Step 5 involves git push, a command you will learn in the next exercise.
+
+### clone the repo to local
+* `git clone remote_location clone_name`
+    * clone a repo from `remote_location` to local named as `clone_name`
+* `git remote -v`
+    * list the remotes.
+    * One thing that Git does behind the scenes when you clone a repo is give the remote address the name `origin`, so that you can refer to it more conveniently.
+    * **origin** can replace by the filePath or URL of the remote repo.
+
+### update local repo
+1. use `git fetch`
+    * `git fetch`
+        * list the difference between local and remote.
+    * `git merge origin/master`
+        * Merge the remote master branch to current local branch.
+
+### update remote repo
+* `git push origin branch_name`

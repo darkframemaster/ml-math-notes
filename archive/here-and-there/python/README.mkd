@@ -1,0 +1,5 @@
+#python
+> python is great!
+
+## 0. install python in ubuntu
+python(normally version 2.7) is already installed in ubuntu.

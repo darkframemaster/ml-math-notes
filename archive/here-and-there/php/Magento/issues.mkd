@@ -1,0 +1,5 @@
+# Issues & solutions
+## SQLSTATE error
+This might happen when your mysql-server is not at work.You can try to:
+
+* restart mysql: `service mysql restart`

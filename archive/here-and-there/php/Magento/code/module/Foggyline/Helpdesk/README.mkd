@@ -1,0 +1,61 @@
+# Example module
+## Warm Up
+### 1.Registering a module
+* create `./registration.php` file.
+* create `./etc/module.xml` config file.
+* run magento command `./magento module:enable Foggyline_Helpdesk`
+* run magento command `./magento setup:upgrade`
+* make sure your file's owener is magento's owener `sudo chown -R www-data:www-data var/`
+* check result in file `<magento>/app/etc/config.php` or in admin area `Stores | Configuration | Advanced | Advanced`
+
+### 2.Creating a configuration file(config.xml)
+* create `./etc/config.xml`
+* configurations in this file will map to `email_templates.xml` and will also map the structure of `system.xml`.
+
+### 3.Creating e-mail templates(email_templates.xml)
+* create `./etc/email_template.xml` by using the hints from the `./etc/config.xml` file
+	* `id` should be defined unique to our module, and should be readable
+	* `label` attribute is visible later on admin area.
+	* `file` attribute point to the location of the template file.
+* create html defined by `email_template.xml` file's file contribute.
+* check result in admin area `Marketing | Communications | Email Templates -> Add New Template`
+
+### 4.Creating a system configuration file(system.xml)
+The `system.xml` file is essentially the `Store | Configuration` interface builder.Entries we define in our module's `system.xml` file will render certain parts of the `Stores | Configuration` interface under the Magento admin area
+
+* create `./etc/admin/system.xml` file.
+* check result in `Stores | Configuration`
+* make sure your tab's id and section's id is unique in all of them.
+	* `Undefined id` error may occur if your id is not unique.
+### 5.Creating access control losts(acl.xml)
+* create `./etc/acl.xml` file.
+* check result in `System | Permissions | User Roles -> Add New Role` you should find your `Helpdesk Section` under `Stores | Settings | Configuration` part.
+
+## Datas & Model
+### 1.Creating an installation script(installSchema.php)
+* create `./Setup/InstallSchema.php` file
+* with `InstallSchema` in place, we now have conditions for entity persistence.
+
+### 2.Managing entity persistence(model, resource, collection)
+* create `./Model/Ticket.php` file for model class.
+* create `./Model/ResourceModel/Ticket.php` file for resource model class.
+* create `./Model/ResourceModel/Ticket/Collection.php` file for collection class.
+* The three classes we just defined act as an overall single entity persistence mechanism.With the currently defined code, we are able to save, delete, update, lookup with filtering, and list our Ticket entities, which we demonstrate in the upcoming sections
+
+## Building a frontend interface
+The module requirement says that customers should be able to submit a ticket through their **My Account** section.We will therefore add a link called **Helpdesk Tickets** under the customer's **My Account** section.The following are needed for a fully functional frontend:
+
+* A route that will map to our controller
+* A controller that will cathc request from a mapped route
+* A controller action that will load the layout
+* Layout XMLs that will update the view making it look as if we are on the **My Account** section while providing content of our own
+* A block class to power our tamplate file
+* A template file that we will render into the content area of a page
+* A controller action that will save the **New Ticket** form once it is posted
+
+### Creating routes, controllers, and layout handles
+* define a route within `./etc/frontend/routes.xml` file.
+* define the controller in `./Controller/Ticket.php` file.
+* define the actions that extend from the controller.Each action is a class file on its own, extending from the parent class.We will now define our index action, the one that will render the view under **My Account | Helpdesk Tickets**, within the `./Controller/Ticket/Index.php` file.
+* define frontend XML layout handles under `./view/frontend/layout/` folder,named by formula `{route_id}_{controller name}_{controller action name}.xml`.
+* simply including the customer_account handle is not enough; we need something extra to define our link under the **My Account** section.We define this extra something under the `./view/frontend/layout/customer_account.xml` file.

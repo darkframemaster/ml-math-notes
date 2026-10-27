@@ -1,0 +1,34 @@
+#Ruby
+## 1. install ruby in ubuntu.
+get package from [https://golang.org/dl/](https://golang.org/dl/)
+
+```bash
+$cp $PATH_TO_PAGEKAGE/go$VERSTION.$OS-$ARCH.tar.gz /usr/local
+$cd /usr/local
+$tar -xzf /usr/local/go$VERSTION.$OS-$ARCH.tar.gz
+
+# install for special user
+$sudo echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
+# or install for system use
+$sudo echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
+$source ~/.profile
+```
+
+install test, write a hello world program `hello.go`:
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+    fmt.Printf("hello, world\n")
+}
+```
+
+```bash
+$go run hello.go
+hello, world
+```
+
+enjoy it!

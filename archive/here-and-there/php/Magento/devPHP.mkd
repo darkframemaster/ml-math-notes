@@ -1,0 +1,193 @@
+# PHP developer guide
+Magento's component include themes, modules, and language packages.In this part we are talking more about modules, that is, you can think the component below as module.
+
+## About component file structure
+### root directory location
+* `<magento install directory>/app`
+	* For modules: `app/code`
+	* For store front themes: `app/design/frontend`
+	* For Admin themes: `app/design/adminhtml`
+	* For language packages: `app/i18n`
+* `<magento install directory>/vendor`
+
+### required files
+Files required for all components:
+* `registration.php`: This file specifies the directory in which the component is installed by vendors in production environments.
+* `composer.json`: Specifies component dependencies and other metadata.
+
+### The module filesystem structure
+Magento identifies itself as a hightly modular platform.What this means is that there is literally a location where modules as placed.The following structure belongs to `Contact` module that can be found in `vendor/magento/module-contact`:
+
+* **common directories**
+	* `Block/` : Where the view-related block PHP classed are located.
+	* `Controller/` : contains PHP controller classes as part of MVC vertical implementation of module logic.
+	* `etc/` : Where the module configuration files are present.We can see files such as `module.xml`,`di.xml`,`acl.xml`,`system.xml`,`config.xml`.
+	* `Model/` : Where the entities, resource entities, collections, and various other business classes can be found.
+	* `Setup` : contains classes for module database structure and data setup which are invoked when installing or upgrading.
+* **Additional directories**
+	* `Helper/` : Where various helper classes are located.These classes are usually used to abstract various store configuration values into the getter methods.
+	* `i18n/` : Where the module translation package CSV files are stored.
+	* `Test/` : Stores the module unit tests.
+	* `view/` : Contains all the module administrator and storefront template files(`.phtml` and `.html`) and static files(`.js` and `.css`).
+* `registration.php` : A module registration file.
+* `composer.json`
+* `LICENSE.txt`
+* `LICENSE_AFL.txt`
+* `README.md`
+
+### Use /etc for your configuration files
+Magento2 looks for configuration information for each module in that module's `etc/` directory.Depending on the needs of your module, you might have the following configuration files at the top level of your module's `etc/` directory(these files are applied globally to your module):
+
+* acl.xml
+* config.xml
+* di.xml
+* module.xml
+* webapi.xml
+
+A Magento2 module also has nested configuration directories in the `etc/` directory for any required administraion html, frontend, API REST, or API SOAP sepcific configuration,and these files will override the settings in global configuration files for the respective functionality only. That is, if you add a `config.xml` file to `etc/frontend`, the settings you make in that file overrides the settings in `etc/config.xml` for storefront functionality only.
+
+* <your module root dir>/etc/adminhtml/
+* <your module root dir>/etc/frontend/
+* <your module root dir>/etc/webapi_rest/
+* <your module root dir>/etc/webapi_soap/
+
+> Configuration files placed in subdirectories (`adminhtml`, `frontend`, `webapi_rest`, `webapi_soap`) apply only to those respective functional areas.
+
+### Tailor your configuration files for what your module does
+The exact set of configuration files required for your module depends on what your new module does.
+
+if you module performs a function in the Admin, you should add any necessary configuration files for those functions to `etc/adminhtml/`, like:
+
+* `<your module root dir>/etc/adminhtml/di.xml`
+* `<your module root dir>/etc/adminhtml/routes.xml`
+
+if you module changes the UI, you should add the needed configuration files to `~/etc/frontend/`. For example:
+
+* <your module root dir>/etc/frontend/.xml
+* <your module root dir>/etc/frontend/page_types.xml 
+
+If the module is a service that may call an API, or does some other work that is not manifested in the UI you should add any needed configuration files in the REST and/or SOAP webapi configuration directories, like this:
+
+* <your module root dir>/etc/webapi_rest/di.xml
+* <your module root dir>/etc/webapi_soap/di.xml
+
+
+
+## Example
+>The Example code is placed in the `./code/module/Vendor/ModuleName` directory.
+
+### Register & composer & config
+* Register your component
+	* Register modules
+	* Invoke registration.php in composer.json with autoload
+* add configuration file `module.xml`
+* add the component composer.json file
+
+
+### Data & Service interfaces
+> see `./code/module/Vendor/ModuleName/Api/README.mkd`
+
+
+### Dependency injection
+> see `./code/module/Vendor/ModuleName/etc/README.mkd`
+
+* Configuring types in `di.xml` configuration node.
+* Abstraction-Implementation mappings in file `di.xml`.(Use these mappings to determine what the default implementations is for that class for a particular scope)
+
+
+### Events and observers
+> see `./code/module/Verdor/ModuleName/Observer/README.mkd`
+
+* Create new events
+* Dispatching(发出) events
+* Create an Observer
+* Subscribing to events
+
+
+### Factories and Proxies
+* [Factories](http://devdocs.magento.com/guides/v2.1/extension-dev-guide/factories.html)
+* [Proxies](http://devdocs.magento.com/guides/v2.1/extension-dev-guide/proxies.html)
+* [Generated code in magento](http://devdocs.magento.com/guides/v2.1/extension-dev-guide/code-generation.html)
+
+
+
+## Test
+[Magento Testing Overview](http://devdocs.magento.com/guides/v2.1/test/testing.html)
+
+
+
+## Make Modules and Collections
+> Code of this part is placed in `./code/Foggyline` directory.
+
+`Model`, `resouce`, and `collection` are three types of classes working together to allow us full entity data management, from loading,saving,deleting, and listing entities.The majority of our data access and management will be done via PHP classes called Magento models.**Models** themselves donnot contain any code for communicating with the database.
+
+The database communication part is decoupled into its own PHP class called **resource class**.Each model is then assigned(分配) a resource class.Calling `load`, `save`, or `delete` methods on models get delegated(授权) to resouce classes, as they are the ones to actually read, write and delete from the database.
+
+**collection classes**: we can think of a collection as an array of individual(独立的) model instances.
+
+We look at model and resource as a single unified thing `model`.Magento deal with two type of models,which we might categorize as simple and EAV models.
+
+### Create a miniature module
+> We will create a miniature module called `Foggyline_Office`.check code in `./code/Module/Foggyline/`.
+
+Every module starts with the `registration.php` and `module.xml` files.
+
+* `registration.php` file is sort of an entry point to our module.
+* `module.xml` 
+	* `setup_version` : This value is important because we might use it within our schema install script(InstallSchema.php) files.
+	* `sequence` : This element is Magento's way of setting dependencies for our module.Given that our module will make use of EAV entities, we list `Magento_Eav` as a dependency.
+
+### Create a simple model
+> See `./code/Module/Foggyline/Office/Model/Department.php` for model class, `./code/Module/Foggyline/Office/Model/ResourceModel/Department.php` for resource class. `./code/Module/Foggyline/Office/Model/ResourceModel/Department/Collection.php` for collection class.
+
+The `Foggyline` module will have a simple model entity `Department`:
+
+* Department: a simple model with the following fields:
+	* `entity_id` : primary key.
+	* `name` : name of department,string value
+
+whenever we talk about models, we implicitly think of `model class`, `resource class`, and `collection class` forming one unit.
+
+**Model class:** We extend each entity class from the `\Magento\Framework\Model\AbstractModel` class,and triggering the `$this->_init` method within `_construct` passing it our `resource class`(will be defined later).The `AbstractModel` further extends `\Magento\Framework\Object`.The fact that our model class ultimately extends from `Object` means that **we donnot have to define a property name** on our `model` class.What `Object` does for us is that it enables us to `get`,`set`,`unset`, and `check` for a value existence on properties magically.
+
+**Resource class:** We extend our resource class from `\Magento\Framework\Model\ResourceModel\Db\AbstractDb` triggers the `$this->_init` method call within `_construct`.`$this->_init` accepts two parameters.The first parameter is the **table name** ,where our model will persist its data.The second parameter is the **primary colume name** within that table.`AbstractDb` further extends `Magento\Framework\Model\ResourceModel\AbstractResource`
+> the `resource class` is the key to communicating to the database. All it takes is for us to name the table and its primary key and our models can save, delete, and update entities.
+
+**Collection class:** The `collection` class extends from `\Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection` and does a `$this->_init` method call within `_construct`.`_init` accept two parameters. The first is the full `model` class name,and the second parameter is the full `resource` class name.`AbstractCollection` implements `Magento\Framework\App\ResourceConnection\SourceProviderInterface`, and extends `Magento\Framework\Data\Collection\AbstractDb`.`AbstractDb` further extends `Magento\Framework\Data\Collection`.`collection` class is our go-to place whenever we need to deal with fetching a list of entities that match certain seach criteria(准则).
+
+### Create an EAV model
+> see `./code/Module/Foggyline/Office/Model/Employee.php` for EAV model class, `./code/Module/Foggyline/Office/Model/ResourceModel/Employee.php` for EAV resource class, `./code/Module/Foggyline/Office/Model/ResourceModel/Employee/Collection.php` for EAV collection class.
+
+The module `Foggyline` will also have a EAV model entity"
+
+* Employee: an EAV model with the following fields:
+	* Fields:
+		* `entity_id` : primary key
+		* `department_id` : foreigh key,pointing to Department.entity_id
+		* `email` : unique e-mail of an employee,string value
+		* `first_name` : first name of an employee,sting value
+		* `second_name` : second name of an employee,string value
+	* Attributes:
+		* `service_years` : employee's year of service,integer value
+		* `dob` : employee's date of birth,date-time value
+		* `salary` : monthly salary, decimal value
+		* `vat_number` : VAT number,(short) string value
+		* `note` : possible note on employee,(long) string value
+
+The `Employee` entity ,as per requirements, is modeled as an EAV model.
+
+**EAV model class:** We extend from the `\Magento\Framework\Model\AbstractModel` class,same as simple model.The only difference here is that we have an ENTITY constant defined, but this is merely syntactical(语法) sugar for later on; it bears no meaning for the actual `model` class.
+
+**EAV resource class:** The resource class extends from `\Magento\Eav\Model\Entity\AbstractEntity`, and set the `$this->read`,`$this->_write` class properties through `_construct`.These are freely assigned to whatever value we want, preferably(最好) following the naming pattern of our module.The read and write connections need to be named or else Magento produces an error when using our entities.
+
+**EAV collection class:** The collection class extends from `\Magento\Eav\Model\Entity\Collection\AbstractCollection` and,similar to the model class, does a `$this->_init` method call within `_construct`.`_init` accepts two parameters: the full model class name and the full resource class name.
+
+### Understanding the flow of schema and data scripts
+The role of the **shchema scripts** is to create a database structure supporting your module logic.For example, creating a table where our entities would persist their data.The role of the **data scripts** is to manage the data within existing tables,usually in the form of adding some sample data during module installation.
+
+### Creating an install schema script (InstallSchema.php)
+> see `./code/Module/Foggyline/Office/Setup/InstallSchema.php`.
+
+`InstallSchema` conforms to(符合) `InstallSechmaInterface`,which requires the implementation(安装启动) of the install method that accepts two parameters of type `SchemaSetupInterface` and `ModuleContextInterface`.The install method is all that is required here.Whthin this method,we would add any relevant code we might have to create the tables and columns we need.
+
+

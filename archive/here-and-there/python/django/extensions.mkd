@@ -1,0 +1,6 @@
+# django-simple-captcha
+* `pip install django-simple-captcha`
+
+## requirements
+* `sudo apt-get install libjepg-dev`
+* `sudo apt-get install zlib-dev`

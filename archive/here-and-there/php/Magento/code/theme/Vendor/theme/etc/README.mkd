@@ -1,0 +1,36 @@
+# Configure images properties for a theme
+The properties of product images used on the storefront are stored in the `view.xml` configuration file. This topic provides all details about what properties are available and how to configure them.
+
+## Configure image properties in view.xml
+* In `view.xml`, image properties are configured in the scope of `<images module="Magento_Catalog">` element.
+* Image properties are configured for each image type defined by the `id` and `type` attributes of the `<image>` element.
+	* `id`: string
+		* Image Identifier.Unique in the scope of theme.
+		* Magento themes id's are meaningful and describe the location of an image.
+	* `type`: string [Details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/theme-images.html)
+		* `image`
+		* `small_image`
+		* `swatch_image`
+		* `swatch_thumb`
+		* `thumbnail`
+* Image properties are defined by the corresponding elements.
+	* `width`
+	* `height`
+	* `constrain`: <boolean> 
+	* `aspect_ratio`: <boolean>
+	* `frame`: <boolean>
+	* `transparency`: <boolean>
+	* `background`: <string>
+* Resize catalog images `./magento catalog:images:resize`,when to use:
+	* After you import products,which might have images of various sizes
+	* If images were resized or deleted manually from cache
+	* After resizing an image, its resized copy is stored in the cache (`/pub/media/catalog/product/cache` directory)
+
+```
+<images module="Magento_Catalog">
+	<image id="unique_image_id" type="image_type">
+		<width>100</width>
+		<height>100</height>
+	</image>
+</images>
+```

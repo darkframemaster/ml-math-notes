@@ -1,0 +1,29 @@
+##install opengl in ubuntu
+```
+sudo apt-get install build-essential
+sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev
+sudo apt-get install freeglut3-dev
+```
+
+##use g++ to build opengl (c++ file)
+用g++编译openGL文件使用以下语句：
+ `g++ filename -o outname.out -lGL -lGLU -lglut`
+
+##use gcc to build opengl (c++ file)
+ `gcc filename -o outname -lGL -lGLU -lglut -lstdc++`
+
+
+##use codeblocksIDE
+配置codeblocks IDE
+在Settings->compiler->link settings->add
+添加：
+
+    libGL.so
+    libGLU.so
+    libglut.so
+(用locate命令查看以上文件的具体路径并添加完整路径)
+
+##other options
+编译选项
+math.h	-lm 
+curses.h -lcurses.h

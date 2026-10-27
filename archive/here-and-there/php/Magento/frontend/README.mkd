@@ -1,0 +1,206 @@
+# Frontend Developer Guide
+This is the guide for Magento2 frontend development.Contents list:
+
+* Layouts development: `devLayout.mkd`
+
+## Conventional notations for paths to modules and themes
+* `<theme_dir>`:
+    * `app/design/frontend/Magento/<theme>`
+    * `vendor/magento/theme-fronted-<theme>`
+    * special for admin theme: `app/design/adminhtml/<Vendor>/<admin_theme>`
+* `<module_dir>`:
+    * `app/code/Magento/<Module>`
+    * `vendor/magento/module-<module>-<name>`
+
+# Themes
+A theme is a component of Magento application which provides a consistent look and feel (visual design) for entire application area (for example, storefront or Magento admin) using a combination of custom templates, layouts, styles or images.
+
+Out-of-the-box Magento application provides two design themes: Luma, as a demonstration theme, and Blank as a basis for custom theme creation.Strongly recommend not to change the default Luma and Blank theme files.
+
+The theme inheritance concept implemented in the Magento system allows you changing only certain theme files, and inheriting the rest necessary files from a parent theme.
+## Theme file structure
+```
+├── composer.json
+├── etc
+│   └── view.xml
+├── i18n
+│   └── en_US.csv
+├── LICENSE_AFL.txt
+├── LICENSE.txt
+├── media
+│   └── preview.jpg
+├── registration.php
+└── web
+    ├── css
+    │   ├── email.less
+    │   ├── print.less
+    │   ├── source
+    │   │   ├── _actions-toolbar.less
+    │   │   ├── _breadcrumbs.less
+    │   │   ├── _buttons.less
+    │   │   ├── components
+    │   │   │   └── _modals_extend.less
+    │   │   ├── _icons.less
+    │   │   ├── _layout.less
+    │   │   ├── _theme.less
+    │   │   ├── _tooltips.less
+    │   │   ├── _typography.less
+    │   │   └── _variables.less
+    │   ├── _styles.less
+    │   ├── styles-l.less
+    │   └── styles-m.less
+    ├── images
+    │   └── logo.svg
+    └── js
+        ├── navigation-menu.js
+        ├── responsive.js
+        └── theme.js
+```
+
+* **Common directories**
+	* `etc` : Contains configuration files such as `view.xml` file which contains image configurations for all images and thumbnails.
+	* `i18n` : Translation dictionaries,if any.
+	* `media` : Theme preview images(screen capture of your theme) can be put in here.
+	* `web` : Optional directory that contains static files organized into following subdirectories:
+		* `css/source` : Contains a theme's `less` configuration files that invoke mixins for global elements from the Magento UI library,and the `theme.less` file that overrides the default variables values.
+		* `css/source/lib` : Contains view files that override the UI library files stored in `lib/web/css/source/lib`.
+		* `fonts` : The folder to place the different fonts for your theme.
+		* `images` : Static images folder.
+		* `js` : The folder for your JavaScript files.
+
+
+
+## Theme files
+* static view files
+* Dynamic view files
+
+### static view files
+A set of theme files that are returned by the server to a browser as is, without any processing, are called the static files of a theme.
+
+Static files can be located in a theme directory as follows:
+
+```
+<theme_dir>/
+├── media/
+├── web
+│	├── css/ (except the "source" sub-directory)
+│	├── fonts/
+│	├── images/
+│	├── js/
+```
+
+The key difference between static files and other theme files is that static files appear on a web page **as references** to the files, while other theme files take part in the page generation, but are not explicitly referenced on a web page as files.
+
+Static view files that can be accessed by a direct link from the store front, are distinguished as public theme files.
+
+> To be actually accessible for browsers public static files are published to the `/pub/static/frontend/<Vendor>/<theme>/<language>/css/` directory.
+
+### static file processing
+Magento use fallback mechanism to search view file.
+
+### Dynamic view files
+View files that are **processed or executed** by the server in order to provide result to the client. These are: `.less` files, templates, and layouts.
+
+Dynamic view files are located in a theme directory as follows:
+
+```
+<theme_dir>/
+├── Magento_<module>/ 
+│	├── web/
+│	│	├── css/
+│	│	│	├── source/
+│	├── layout/
+│	│	├── override/
+│	├── templates/
+├── web/
+│	├── css/
+│	│	├── source/
+
+```
+
+##Theme inheritance
+Theme inheritance enables you to easily extend themes and minimize the maintenance efforts.*The level of theme inheritance is not limited*.
+
+Theme inheritance is based on the fallback mechanism.The fallback order is slightly different for static assets(CSS, JavaScript, fonts and images) and other theme files,and provides an overview of how to override ancestor
+themes and module designs.
+
+* override static assets(styles,JS,images,fonts,`.less(This is special)`)
+	* if moudle context is not defined for a file:
+		* current theme static files:
+			* for a specific locale: `<theme_dir>/web/i18n/<locale>`
+			* `<theme_dir>/web/`
+		* Ancestor's theme static files:
+			* `<parent_theme_dir>/web/i18n/<locale>`
+			* `<parent_theme_dir>/web/i18n/<locale>`
+		* Library static view files:
+			* `lib/web/`
+	* if module context is defined for a file:
+		* Current theme static files:
+			* Current theme and current locale module static files: `<theme_dir>/web/i18n/<locale>/<Namespace>_<Module>`
+			* Current locale module static files: `<theme_dir>/<Namespace>_<Module>/web/`
+		* Ancestor themes module static files:
+			* `<parent_theme_dir>/web/i18n/<locale>/<Namespace>_<Module>`
+			* `<parent_theme_dir>/<Namespace>_<Module>/web/`
+		* Module static view files for the `frontend` area:
+			* `<module_dir>/view/frontend/web/`
+		* Module static view files for the `base` area:
+			* `<module_dir>/view/base/web`
+* override templates
+	* Current theme templates: `<theme_dir>/<Namespace>_<Module>/templates`
+	* Ancestors themes templates: `<parent_theme_dir>/<Namespace>_<Module>/templates`
+	* Module templates: `<module_dir>/view/frontend/templates`
+	* `<templates_path>`
+* extend layouts
+	* Current theme layouts: `<theme_dir>/<Vendor>_<Module>/layout/`
+	* Ancestor theme layouts: `<parent_theme_dir>/<Vendor>_<Module>/layout/`
+	* Module layouts for the `frontend` area: `<module_dir>/view/frontend/layout/`
+	* Module layouts for the `base` area: `<module_dir>/view/base/layout`
+* override layouts
+	* Create a layout file with same name in the `<theme_dir>/<Vendor>_<Module>/layout/override/theme/<Vendor>/<ancestor_theme>` directory.
+	* To override: `<theme_dir>/<Vendor>_<Module>/layout/override/base` directory.
+
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/theme-inherit.html)
+
+### locate templates & layouts & styles
+To locate the template that is responsible for a specific part of the storefront or Admin, you can use Magento built_in template hints.
+
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/debug-theme.html)
+
+
+
+## Add icon & vedio &
+### icon
+* Add icon using admin page: `content` -> `design` -> `configure` -> `edit`.
+* Add custom favicons manually:
+    1. Add your icons in the `<your_theme_dir>/Magento_Theme/web` directory.
+    2. In the `<your_theme_dir>/Magento_Theme/layout/default_head_blocks.xml` layout file specify the paths to the icons and their sizes.
+
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/favicon.html)
+### vedio
+* Add in admin when creating or editing a product.
+* Certain product video options can be set in the `config.xml` configuration file.These settins are not theme-specific.
+
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/product-video.html)
+###
+
+
+
+## Apply theme
+* [Apply and configure a storefront theme](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/theme-apply.html)
+* [Apply an Admin theme](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/admin_theme_apply.html)
+
+
+
+# Example
+> see `./code/theme/Vendor`
+
+## Add a theme: walkthrough
+### basic setup
+> see `./code/theme/Vendor/README.mkd`
+
+* Declare your theme with `theme.xml`.
+	* set a parent theme
+* Add `registration.php` and `composer.json`.
+* Config images.
+* Create directores for static files.
+* Registration.

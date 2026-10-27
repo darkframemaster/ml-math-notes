@@ -1,0 +1,19 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Core\Model\Session" /> // Default instance of Magento\Core\Model\Session type. Exists by default, can be omited.
+    <virtualType name="moduleConfig" type="Magento\Core\Model\Config"> // Instance with global name "moduleConfig" of Magento\Core\Model\Config type
+        <arguments>
+            <argument name="type" xsi:type="string">system</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Core\Model\App">
+        <arguments>
+            <argument name="config" xsi:type="object">moduleConfig</argument>
+        </arguments>
+    </type>
+</config>
+
+<!-- 
+    Magento\Core\Model\Session: The attribute name always specifies type configured by the node.
+    moduleConfig: A virtual type that extends type Magento\Core\Model\Config.
+    Magento\Core\Model\App: All instances of this type receive an instance of moduleConfig as a dependency.
+-->

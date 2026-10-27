@@ -1,0 +1,97 @@
+##Hello Rails
+###Install rails
+To getting start with Ruby on Rails,you need to do some prepares:
+
+1. install ruby and check:
+	* `sudo apt-get install ruby`
+	* `ruby -v`
+2. install sqlite3:
+	* check if it is already there: `sqlite3 --version`
+	* install sqlite3: `sudo apt-get install sqlite3`
+3. intsall rails:
+	* using gem: `(sudo)gem install rails`
+	* check: `rails version`
+
+###To build a new project:
+1. **Initial of a new project.**choose a path to store you app and make the first step:
+	* Run command `rails new blog`.blog could be your project name.
+	* Rails will help you to build an empty project and download libs you need.
+	* >the sqlite3 is needed, and you should install it with:
+		```
+		sudo apt-get install libsqlite3-dev
+		sudo gem install sqlite3
+		```
+	* You can check the installed libs using: `bundle show`
+	* You can install the libs if it is not installed successfully by using: `bundle install`
+
+2. **Run the server.**After the step one,the things you need for an app is getting alreadly, now you can run it:
+	* Cd into your project folder.
+	* Run the server: `rails server`
+
+3. Say 'Hello Rails':
+	* Create a controller: **`rails genertate controller welcome index`**
+		* welcome is a controller.
+		* index is a action.
+	* >There will be a lot of files created by rails,  
+		the controller as `app/controllers/welcome_controller.rb`
+		and the view as `app/views/welcome/index.html.erb`.
+	* Edit the `app/views/welcome/index.html.erb` to say hello world.
+	* Check localhost:3000/welcome/index to see the changes.
+
+4. Set the root router.
+	* Edit `config/routes.rb`,insert `root 'welcome#index'`.
+	* Check localhost:3000 to see the changes.
+
+5. Add articles.(add a resource)
+ 	* Edit `config/routes.rb`,insert a new line `resources :articles`.
+	* Run command `rake routes` to excute the operations you defined and it will print in your monitor.
+
+6. Make a page to create a new article
+	* Choose a name for the url path like `/articles/new`,and you will find the route is defined already.
+	* create a controller for the route.`rails g controller articles`
+	* check the file `app/controllers/articles_controller.rb`,you will find there is just a define of a class `ArticlesController`,methods define in here are the actions of the controller.You can check the `welcome_controller.rb` to see the difference.
+		* There are three kinds of methods in RUBY: public, protect, private, and only the **public method** can be the action in rails.
+		* Actions in rails is the operation of CRUD.
+	* So next step is to define a action for the `ArticlesController`,it is as same as the action `index` defined in `welcome_controller.rb` 
+	* It is time to write a view for the action.creat a new file `app/views/articles/new.html.erb`.Write something you want and then check the result.
+		* html is the format of the template
+		* erb is the way you deal with this file.
+
+7. The first table.
+	* Edit `app/views/articles/new.html.erb` and use method `form_for` to build a table list.
+	* `form_for` need to set with a Object(here is `article`),and the Object will tell `form_for` about whitch resource is this form work for.
+	* There is a Object of Class `FormBuilder` in the method `form_for` named as 'f'(just a name of variable), and we use 'f' built two labels and two text and a submit button
+    * Change the form's direction use method `url` for example `url: aritcles_path`.
+
+8. Create a new article.
+    * Create a new article is a new action you should define in ArticlesController.Edit `app/controllers/articles/articles_controller.rb` and define a new method `create` as we did before.
+    * We don't have a tempate yet,but we need to edit the action of the `create` to get the article's information.
+        * Method `render` help us do the job.
+        * `params` is the params of the form just submitted for this action.
+
+9. Create a model for article.
+    * In rails the model's name use a **singular** word and table's name use a **plural** word.
+    * To create a new model:**`rails generate model Article title:string text:text`**
+        * `Article` is the name of the model
+        * `title` and `text` is the attributes of the table
+    * After running the command a lot of files will be made.Here are the most important two.
+        * `app/models/article.rb` for the model.
+        * `db/migrate/date_create_articles.rb` for the database.
+
+10. Migration of the DB.
+    * Use `rake db:migrate` to migrate the database.
+        * **MENTION:** by default the db migrated in develop envirment if you want to run it in production envirment using **`rake db:migrate RAILS_ENV=production`** instead.
+    * After excuting the command the database will be created.
+
+11. Save data in Controller.
+    * Edit `app/controllers/articles/articles_controller.rb`,and change the action `create` to add a new object of model `Article` and redirect the url to the show page.
+
+12. Show the article.
+    * create a new action `show`,it should show the article you just added.
+    * create a view for this page.
+        * **MENTION:**only the variable with prefix '@' can be used in view template.
+
+13. Make a index page to show all articles.
+    * create a new action `index`,it should show all the articles you have added in the database.
+    * create a view for this page.
+ 

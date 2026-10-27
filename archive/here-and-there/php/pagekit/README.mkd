@@ -1,0 +1,6 @@
+# pagekit
+About this directory:
+
+* `user.mkd` : To add pages for user's registration, login, logout and so on.
+* `adminInterface.mkd` : How to use the interface provided by pagekit.
+* `extensions/` : The extensions of pagekit.

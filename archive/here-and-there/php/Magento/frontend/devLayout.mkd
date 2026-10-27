@@ -1,0 +1,80 @@
+# Introduction
+Magento application implements the **Model-view-controller** architecture pattern; meaning, the Magento software is architected into layers, including the view layer.
+
+The major part of the view layer of Magento application is layout. Functionally, layout is a page structure, represented by hierarchy of elements (element tree), which can be of two types: **blocks** and **containers**. Technically, layout is defined in the `.xml` files, which contain element declarations and element manipulation instructions.
+
+## About Layout
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/layouts/layout-overview.html)
+### Terms used
+* `layout handle` : a unique identified set of layout instructions that serves as a name of a layout file.There are three kinds of layout handles:
+	* **page type layout handles**
+	* **page layout handles**
+	* **arbitrary handles**
+
+### Basic layout elements
+The basic components of Magento page design are blocks and containers.
+
+* **Container**: A container exists for the sole purpose of assigning content structure to a page. A container has no additional content except the content of included elements. Examples of containers include the header, left column, main column, and footer.
+* **Block**: A block represents each feature on a page and employs templates to generate the HTML to insert into its parent structural block. Examples of blocks include a category list, a mini cart, product tags, and product listing.
+
+### Basic layouts
+The basic view of all Magento storefront pages is defined in two page configuration layout files located in the **Magento_Theme** module:
+
+* `<Magento_Theme_module_dir>/view/frontend/layout/default.xml`: defines the page layout.
+* `<Magento_Theme_module_dir>/view/frontend/layout/default_head_blocks.xml`: defines the scripts, images, and meta data include in pages' `<head>` section.
+* Normally, you can find those directories in `<Magento_path>/vendor/magento/module-theme/`.
+
+### layout files types and conventions
+
+#### layout file types: by role
+* **Page layout**: An XML file declaring a page **wireframe** inside the <body> section of the HTML page markup, for example, two-column page layout.Page layouts feature only **containers**.All page layouts used for page layouts used for page rendering should be declared in the page layout declaration file.
+* **Page configuration**: An XML file declaring detailed structure, contents and meta-information of a page (includes the `<html>`, `<head>`, and `<body>` sections of the HTML page markup).Page configuration features both main elements,**blocks of particular classed and containers**.
+* **Generic layout**: An XML file declaring page detailed structure and contents inside the `body` section of the HTML page markup. Used for pages returned by AJAX requests, emails, HTML snippets, and so on.
+#### Module and theme layout files
+The following terms are used to distinguish layouts provided by different application components:
+
+* `Base layouts`: Layout files provided by **modules**. Conventional location:
+	* Page configuration and generic layout files: `<module_dir>/view/frontend/layout`
+	* Page layout files: `<module_dir>/view/frontend/page_layout`
+* `Theme layouts`: Layout files provided by **themes**. Conventional location:
+	* Page configuration and generic layout files: `<theme_dir>/<Namespace>_<Module>/layout`
+	* Page layout files: `<theme_dir>/<Namespace>_<Module>/page_layout`
+
+### Customize layout
+To ensure stability and secure your customizations from being deleted during upgrade, do not change out-of-the-box Magento module and theme layouts.
+
+To make the necessary changes, create extending and overriding layout files in your custom theme.
+
+### Layout file processing
+The Magento application processes layout files in the following order:
+
+1. Collects all layout files from modules. The order is determined by the modules order in the module list from `app/etc/config.php`.
+2. Determines the sequence of inherited themes `[<parent_theme>, ..., <parent1_theme>] <current_theme>`.
+3. Iterates the sequence of themes from last ancestor to current:
+	1. Adds all extending theme layout files to the list.
+	2. Replaces overridden layout files in the list.
+4. Merges all layout files from the list.
+
+## Layout instructions
+[more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/layouts/xml-instructions.html)
+
+Use layout instructions to:
+
+* move a page element to another parent element
+* add content
+* remove a page element
+
+The basic set of instructions is the same for all types of layout files.
+### Common layout instructions
+Use the following layout instructions to customize to your layout:
+
+* `<block>`
+* `<container>`
+* `before` and `after` attributes
+* `<action>`
+* `<referenceBlock>` and `<referenceContainer>`
+* `<move>`
+* `<remove>`
+* `<update>`
+* `<argument>`
+* [more details](http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/layouts/xml-instructions.html)

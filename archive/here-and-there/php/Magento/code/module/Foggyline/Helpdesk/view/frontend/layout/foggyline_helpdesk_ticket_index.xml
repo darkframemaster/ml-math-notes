@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<!-- 
+		Notice how we immediately call the update directive,
+		passing it the customer_account handle attribute value.
+		This is like saying,"include everything from the 
+		customer_account handle into our handle here."We are further
+		referencing the content block, within which we define our own
+		custom block type
+			Foggyline\Helpdesk\Block\Ticket\Index
+
+		Though a block class can specify its own template,we are using
+		a template attribute with a module-specific path,
+			Foggyline_helpdesk::ticket/index.phtml
+		to assign a template to a block.
+	-->
+	<update handle="customer_account"/>
+	<body>
+		<referenceContainer name="content">
+			<block class="Foggyline\Helpdesk\Block\Ticket\Index"
+				name="foggyline.helpdesk.ticket.index"
+				template="Foggyline_Helpdesk::ticket/index.phtml"
+				cacheable="false" />
+		</referenceContainer>
+	</body>
+</page>

@@ -1,0 +1,28 @@
+#nginx
+
+##install
+`sudo apt-get install nginx`
+
+##use
+```
+sudo nginx                  #启动nginx服务器
+service nginx start    	    #start nginx server
+
+nginx -s quit
+nginx -s stop           #退出nginx服务
+nginx -s reload     #从新加载配置文件
+```
+
+```
+ps -ax | grep nginx         #查看nagin相关的进程
+```
+
+##make config
+see `./example`
+
+##use config
+config file location:`/etc/nginx/sites-available/file_name`
+
+After config U need to make a link to `/etc/nginx/sites-enabled/...` so that you can use it.
+
+`sudo ln -s /etc/nginx/sites-available/file_name`

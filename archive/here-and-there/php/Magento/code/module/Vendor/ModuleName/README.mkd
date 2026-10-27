@@ -1,0 +1,58 @@
+# introduction
+This directory is a example of a `Module`, and is build in guid with documentation of Magento2.
+
+To build a new module, you can copy this directory for a simple setup of a module and replace the params into those you need.
+
+## Register your component
+Magento components, including modules, themes, and language packages, must be registered in the Magento system through the Magento `ComponentRegistrar` class.
+
+Each component must have a file called `registration.php` in its root directory. 
+### Register modules
+Here is the Format of the contents.where <VendorName> is the name of 
+the company providing the module and <ModuleName> is the name of the 
+module.Do not use “Ui” for your custom module name
+
+```
+ComponentRegistrar::register(
+	ComponentRegistrar::MODULE, 
+	'<VendorName_ModuleName>',
+	__DIR__
+);
+```
+### Invoke registration.php in composer.json with autoload
+After you create your `registration.php` file and you are creating your component’s composer.json file, invoke your `registration.php` file in the `autoload` section of `composer.json`:
+
+```
+ {
+"name": "Acme-vendor/bar-component",
+"autoload": {
+    "psr-4": { "AcmeVendor\\BarComponent\\": "" },
+    "files": [ "registration.php" ]
+} }
+```
+
+## add configuration files
+* `module.xml` files in `./code/module/etc/` directory.Attributes include:
+	* `name` is the name of your component.[required]
+	* `set_up` is your module's database schema version.[required]
+
+## add the component composer.json file
+`composer.json` provides a component name and also specifies component dependencies.
+
+In addition, the Component Manager looks for a `composer.json` in a component’s root directory and can perform actions on the component and its dependencies.
+
+* If a component has composer.json and the component was installed using Composer (including from packagist, the Magento Marketplace, or other source), the Component Manager can update, uninstall, enable, or disable the component.
+* If the component has composer.json but was not installed using Composer (for example, custom code a developer wrote), Component Manager can still enable or disable the component.
+* We strongly recommend you include composer.json in your component’s root directory whether or not you intend to distribute it to other Magento merchants.
+
+Attributes of a `composer.json` include:
+
+* `name`: The name of your component.
+* `description`: A concise explanation of your component's purpose.
+* `require`: Lists any components your component depends on.
+* `suggest`: Lists soft dependencies. The component can operate without them, but if the components are active, this component might impact their functionality. Suggest does not affect component load order.
+* `type`: Determines what the Magento component type. Choose from `magento2-theme`, `magento2-language`, or `magento2-module`.
+* `version`: Lists the version of the component.
+* `license`: Lists applicable licenses that apply to your component.
+* `autoload`: Instructs composer to load the specified files.
+

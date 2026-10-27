@@ -1,0 +1,38 @@
+# PostgreSQL
+[more detail](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04)
+
+## Install
+`sudo apt-get update`
+`sudo apt-get install postgresql`
+
+## Use Roles and Databases
+1. Log into the default count of Postgres: `sudo -i -u postgres`
+2. Get a Postgres prompt from the count: `psql`
+3. Quit from the prompt: `\q`
+
+### Create a New Role
+0. view roles:
+	* under Postgres prompt use command:`\du`
+1. use `command line`:
+	1. Create a new role: `createuser --interactive`
+		* you can also use other options check `man createuser` for help.
+	2. Input informations of the user:
+		* the name of the role.
+		* whether it should be a superuser.
+2. use `prompt`:
+	1. `create role role_name`	
+
+### Create a New Database
+* `createdb db_name`
+
+### Check the connection's information
+* `psqli -d postgres`
+* `\conninfo`
+
+## Common problems:
+1. Get `psql:FATAL:Ident authentication failed for user "postgres"`
+	* [more detial](http://stackoverflow.com/questions/2942485/psql-fatal-ident-authentication-failed-for-user-postgres)
+	* set password for a postgres:
+		* `sudo -u postgres psql`
+		* `\password`
+	* try to connect: `psql -U postgres -h localhost`

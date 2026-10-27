@@ -1,0 +1,9 @@
+###speed.py
+* `time.clock()` return the running time of program
+* `random.randint(a,b)` return a number between a and b
+* `keys[number]` number is the ASCLL code of a key.if the key is pressed keys[number] will return true
+
+###mouse.py
+* `pygame.mouse.get_pos()`return the position of the mouse `pos_x,pos_y=pygame.mouse.get_pos()`
+* `pygame.mouse.get_rel()`return the change(relative motion) of the mouse `rel_x,rel_y=pygame.mouse.get_rel()`
+* `pygame.mouse.get_pressed`there is three key in your mouse so it will return a list of the mouse's condition `button1,button2,button3=pygame.mouse.get_pressed()`

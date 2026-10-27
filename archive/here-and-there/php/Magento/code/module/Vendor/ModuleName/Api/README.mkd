@@ -1,0 +1,52 @@
+> This directory stores files about `service interfaces` of a module.
+
+# Public interface & API
+## Public interface
+A **public interface** is a set of code that third-party developers can call, implement, or build as a plug-in. Magento guarantees that this code will not change in subsequent releases without a major version change.
+
+Public interfaces for a module reside in the Api folder for a module. For example, the public interfaces for the `Customer` module reside in the `vendor/magento/module-customer/Api directory`.
+
+> Third-party developers should use only these interfaces, that is, interfaces with the `@api` annotation.
+
+## What is an API
+An application programming interface (API) is a set of interfaces and their implementations that a module provides to other modules.
+###Api types
+The following items are considered types of APIs:
+
+* Directory structure
+* Configuration files structure
+* Events
+* Client API
+* Provider API(SPI)
+
+
+
+# Service contracts
+A service contract is a set of PHP interfaces that is defined by a module.This contract comprises data interfaces and service interfaces.
+
+The role of the data interface is to preserve data integrity(数据完整性), while the role of the service interface is to hide the business logic details from service consumers.
+## Data interfaces
+**Data interfaces** define various functions,such as validation,entity information, search related functions, and so on.They are defined within the `Api/Data` directory of an data interfaces for an individual module, for example: data interfaces for cms module `vendor/magento/module-cms/Api/Data`.
+
+You must define one interface for each data entity for type hinting purposes. That is, the `getItems()` function in the `CustomerSearchResultsInterface` returns an array of `CustomerInterface` data entities. In `GroupSearchResultsInterface`, the `getItems()` function returns an array of `GroupInterface` data entities. 
+
+## Service interfaces
+**service interfaces** are the ones that include:
+
+* Management interfaces
+* Repository interfaces: Provide access to presistent(持久的) data entities.
+	* `CustomerRepositoryInterface`
+    * `AddressRepositoryInterface`
+    * `GroupRepositoryInterface`
+	* Repository interfaces must provide these functions:
+		* `save(data entity interface)`
+		* `get(id)`
+		* `getlist(search criteria)`
+		* `delete(data entity interface)`
+		* `deleteById(id)`
+* Metadata interfaces: Management interfaces provide management functions that are not related to repositories.
+	* `AccountManagementInterface`
+	* `AddressManagementInterface`
+
+These interfaces are defined directly within the module'a `Api` directory, for example: Service interfaces for cms module `vendor/magento/module-cms/Api`.The **CRUD interface** is located in here.
+

@@ -1,0 +1,9 @@
+<config>
+    <preference for="Magento\Core\Model\UrlInterface" type="Magento\Core\Model\Url" />
+</config>
+
+<!-- 
+
+Since this mapping is in app/etc/di.xml, wherever there is a request for the Magento\Core\Model\UrlInterface in the global scope, the Magento\Core\Model\Url implementation class will be used.
+
+ -->

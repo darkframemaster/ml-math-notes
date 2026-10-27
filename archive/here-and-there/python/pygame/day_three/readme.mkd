@@ -1,0 +1,7 @@
+**learn more about pygame.draw:**
+
+[pygame.draw](pygame.org.docs)
+
+**To run Pie.py:**
+
+`sudo ./Pie.py`

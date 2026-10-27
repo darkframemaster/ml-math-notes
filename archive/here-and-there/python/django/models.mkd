@@ -1,0 +1,2 @@
+# models
+[how to query a group by in django](http://stackoverflow.com/questions/629551/how-to-query-as-group-by-in-django)

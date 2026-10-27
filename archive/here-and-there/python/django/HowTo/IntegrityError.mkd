@@ -1,0 +1,60 @@
+# How to deal with IntegrityError in Django
+`IntegrityError` exception raised when the relational integrity of the database is affected, e.g. a foreign key check fails, duplicate key, etc.
+
+```python
+# Here is an example
+
+# models.py
+class UserProfile(models.Model)	
+	name = models.CharField(max_length = 30)
+	email = models.CharField(max_length = 100, unique = True)
+	avatar = models.CharField(max_length = 300)
+	...
+
+# view.py
+def save_userprofile(request):
+	...
+	new_profile = UserProfile(
+		name = name,
+		email = email,
+		avatar = avatar,
+	)
+	new_profile.save()
+	...
+```
+
+See, we have a model named `UserProfile` and we will use it when we trying to insert a new user profile into that table, Everything looks fine and may be worked find as well, but consider we have a user whose network is just fucked when he/she trying to edit and save his/her profile and then he/she post the same request at almost the same time, what will happen?
+
+If you tried this, maybe you've already meet the error below:
+
+```python
+duplicate key value violates unique constraint "application_userprofile_email_key"
+DETAIL:  Key (email)=('foo@foo.foo') already exists.
+```
+
+Actually, this error will not give any loss to the user, because when the first request is passed through `save_user_profile`, the record is already exists in the database. But for you, this is an error...
+
+To fix this `'error'`, django provide an Exception Handler: `IntegrityError`, and you can use it like this:
+
+```python
+from django.db import IntegrityError
+
+# view.py
+def save_user_profile(request):
+	...
+	new_profile = UserProfile(
+	name = name,
+	email = email,
+	avatar = avatar,	
+	)
+	try:
+		new_profile.save()
+	except IntegrityError as e:
+		pass
+		# do something about this exception as you wish
+	...
+```
+
+Ok, now test and commit your code, see if the error log is gone.
+
+For less detail check.[django project](https://code.djangoproject.com/wiki/IntegrityError)

@@ -1,0 +1,43 @@
+# Command line
+> Magento has one command-line interface that performs both installation and configuration tasks: `<your Magento install dir>/bin/magento`
+
+## settings for command line
+* run command as the Magento file system owner.
+* To run Magento commands from any directory,add `<your Magento install dir>/bin/magento` to your system `PATH`: `export PATH = $PATH:/var/www/html/magento/bin`
+
+## commands
+### Set the Magento mode
+* Display current mode: `./magento deploy:mode:show`
+* Change modes: `magento deploy:mode:set {mode} [-s|--skip-compilation]`
+    * `mode` is required,it can be either `developer` or `production`
+    * `--skip-compilation` is an optional parameter you can use to skip code compilation when you change to production mode.
+    * change to production mode: 
+        * `magento deploy:mode:set production`
+    * change to developer mode: 
+        1. If you’re changing from production mode to developer mode, delete the contents of the var/generation and var/di directories: `rm -rf <your Magento install dir>/var/di/* <your Magento install dir>/var/generation/* `
+        2. `magento deploy:mode:set developer`
+
+### Enable or disable module
+#### Enable your Magento environment:
+
+1. Disable the cache under `System->Cache Management`.
+2. Enter the following at the command line:
+	* `./magento module:enable --clear-static-content Component_Name`: Component_Name is the name of your component.
+	* `./magento setup:upgrade`
+3. Check under `Store->Configuration->Advanced->Advanced` that the component is present.
+#### Disable a component
+To disable a component,enter the following at the command line:
+
+`./magento module:disable --clear-static-content Component_Name`
+
+
+### Code compilation
+* `magento setup:di:compile`: Implies one website and store.
+* `magento setup:di:compile-multi-tenant`: Implies more than one independent Magento applicaion.
+
+### Clean up `var/` directory
+* `rm -rf .../var/generation/*`: delete individual(个别的) directories.
+* `magento setup:upgrade`: updates the Magento database schema and data. Clear `var/di/` and `var/generation` directories.
+* `magento setup:di:compile`: clear the `var/generation` directory.
+* `magento setup:mode:set production`: changes the mode from the developer mode to the production mode and vice versa. clear `var/di`,`var/generation`,and `var/view_preprocessed` directories.
+* `magento cache:clean {type}`: clean the `var/cache` and `var/page_cache` directories.

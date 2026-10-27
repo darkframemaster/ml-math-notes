@@ -1,0 +1,36 @@
+#php
+## 1. install php in ubuntu.
+1. Things we need:
+    * apache2.0
+    * php7.0
+    * mysql (already installed)
+2. Install
+    * `sudo apt instll apache2.0 php7.0 libapache2-mod-php7.0 php7.0-mysql`
+3. Test
+    * To make less problem shutdown other server like nginx if you are running one.
+    * To run apache2 server:
+		* `sudo /etc/init.d/apache2 restart`
+		* `sudo service apache2 restart`
+    * write a php script. (eg:`/var/www/html/init/test.php`)
+    	* the path `/var/www/html/` is the default website for the apache2.
+    * Check the website `localhost/init/test.php`
+4. Configurations
+    * The config file of php-apache is located in `/etc/php/7.0/apache2/php.ini`,edit this to change default configs.
+    * Setting `display_errors = on` & `error_reporting = E_ALL` to display error informations.
+
+## 2. Apache
+### config file location
+* /etc/apache2/
+	* this is the root path of the config files.
+
+
+## 3. php
+### simple introduce
+php is a language that can easyly work with html,to run a php script you need a web-server's(Apache or Nginx) support.
+
+## 4. php extensions
+### work with XML & XPATH
+* install lib for xml:`sudo apt install php7.0-xml`
+
+### work with MySQL
+Tool: `phpMyAdmins`

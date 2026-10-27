@@ -1,0 +1,42 @@
+# About this repo
+All kinds of piecemeals in this repo.
+
+## About the directories
+The language-related directories are named by the language,for example:
+```
+./
+|
++- c/				<--things about c.
+|
++- c++/ 			<--things about c++.
+|
++- python/			<--things about python.
+|
++- ruby/			<--things about ruby.
+|
++- php/				<--things about php.
+|
+...
+```
+
+By default each language-related directory contains a README.mkd file talk about the installation, some even contains syntax about that language which usually located in `language.mkd` file.
+
+There are also other directories talk about other things.
+```
+./
+|
++- web_roadmap/			<--things about web development.
+|
++- reading_note/		<--Note of books.
+|
++- just-for-fun/ 		<--things code for fun.
+|
++- university/			<--some learning-documents of university
+|
+...
+```
+
+## About the environment
+All the code is able to run in `Ubuntu 16.04 LTS` and is only tested under this environment.
+
+There are some shell script under the language-related directories for setting the environment,if you need to run those script please check the contents before.

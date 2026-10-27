@@ -1,0 +1,63 @@
+#Django
+
+
+## Install django
+### For ubuntu 2015 with python3
+`sudo apt-get install python3-django`
+
+## About the work flow
+* init a project
+* init an app
+* models:
+	* create models in your app's `models.py` file
+	* make a update for the database changes(see `About database` below)
+* views and urls:
+	* write a view for your app to make a response in app's `view.py` file
+	* edit urlpatterns for your view in app's  `urls.py` file
+	* edit urlpatterns for your app in project's `urls.py` file, use `include` method to add your own url patterns
+	* create a `templates` directory in your app's root directory
+	* create a html file for your view in your app's `templates` directory
+	* create static files for your view in your app's `static` directory
+* admin:
+	* creating an admin user using `python3 manage.py createsuperuser`
+	* register a Model to the admin interface in app's `admin.py` file
+	* find more details in `About admin` part below
+* test case:
+	* write test cases for your app(see `About test` below)
+
+
+
+## About basic command
+* make a project: `python3 django-admin startproject [project_name]`
+* make a app: `python3 django-admin startapp [app_name]`
+* open a python shell with your project's django settings: `python3 manage.py shell`. this can test the database in a simple way
+
+## About settings
+* set templates directories for you project: in `settings.py` file under your project directory.
+
+## About database
+* include an app(or store changes in the app's model): `python3 manage.py makemigrations [app_name]`
+* see the migrations SQL(This will do nothing but only list the SQL statements): `python3 manage.py sqlmigrate [app_name] [id of the migrations]`
+* check issues before making migrations or touching database: `python3 manage.py check`
+* create tables: `python3 manage.py migrate`
+
+## About admin
+After registering your model in `admin.py` script, it will automatically be showed in the admin page, and you can add objects of the model using admin page.
+
+* Django knows that **Foregin key** should be represented in the admin page as a **<select>** box, and you can add a **Foregin key** object using the link next to the **Foregin key** Field.
+
+## About test
+### Create a test to expose the bug
+[more details](https://docs.djangoproject.com/en/1.10/intro/tutorial05/)
+
+#### Methods test
+* write your test code in your app's test.py file.
+* define a test class and some test methods.
+	* a test class can be defined as: `class SomeMethodTests(TestCase):`
+	* a test method can be defined as: `def test_some_methods(self):`
+	* **test class must be a subclass of django.test.TestCase**
+	* **test methods's name must begin with test**
+* run `python3 manage.py test polls`.
+* fixing the bug.
+
+#### View test

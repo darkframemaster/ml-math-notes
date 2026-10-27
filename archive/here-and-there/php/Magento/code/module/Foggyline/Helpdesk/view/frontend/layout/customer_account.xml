@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchameLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<title>Helpdesk Tickets</title>
+	</head>
+	<body>
+		<referenceBlock name="customer_account_navigation">
+			<block class="Magento\Framework\View\Element\Html\Link\Current" name="foggyline-helpdesk-ticket">
+				<arguments>
+					<argument name="path" xsi:type="string">
+						foggyline_helpdesk/ticket/index
+					</argument>
+					<argument name="label" xsi:type="string">
+						Helpdesk Tickets
+					</arguemnt>
+				</arguments>
+			</block>
+		</referenceBlock>
+	</body>
+</page>
+
+<!-- 
+	What is happening here is that we are referencing an existing 
+	block called customer_account_navigation and define a new block
+	within it of class
+		Magento\Framework\View\Element\Html\Link\Current
+
+	This block accepts two parameters: the path that is set to our
+	controller action and the label that is set to *Helpdesk Tickets*.
+-->

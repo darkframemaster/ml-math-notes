@@ -1,0 +1,131 @@
+#Dynamic Web Desgin
+To build a dynamic with PHP. Coding language is not a big deal you can choose python ruby or any other languages just the way you like.
+
+> If you want to run these code please check `hereandthere/php` part for details,suggest making a softlink to test code.
+
+##Libs
+* YUI(yooho)
+
+## 1.DNS
+before the class you need to do some prepare:
+* buy a DomainName.
+* rent a server and check the DNS-server it uses.
+* tell the DNS-server's ip to the DomainName provider.
+
+### Types of DNS record.
+* NS records:your website's name server.(www.any.com -> 1.2.3.4)
+* MX records:your mail server.(darkframexue@any.com -> 1.2.3.4)
+* A records: an authoritative record that literally maps domain name to IP address.(domainname -> IP address)
+* CNAME records: an alias.(domainname -> domainname)
+
+### about google.com & www.google.com
+>when you visit `google.com` it turns out that you can finially get to `www.google.com`,so there is a redirect to map `google.com` to `www.google.com`.it is configed by the server using Apache or sth else, it will take some bad effect in the performens because it will send another http header to get request from the `www.google.com` .
+
+
+## 2.HTTP
+### HTTP request headers:(check this in your Firebug)
+* Get / HTTP/1.1
+* Host:"www.any.com"
+    * We might have many website in a same server,so we need to let the server know which website we are looking for,then the server will search the folder of the website and return the html or css or other files.
+    * **METION:**if you use SSL for the HTTP,the host information will  be encrypt and you will not see it.
+* User-Agent:"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0"
+    * This means the browser that you use.
+* cookie:
+* ...
+
+### HTTP response headers:
+* status:"200 OK"
+    * This code will tell you the status of a HTTP connection.
+
+### POST & GET
+* POST can hide your informations.if you use GET method to submit a form the information can be stored in your web-browser and the log file of the server witch you are visiting,so the developer of the web-site can see your private informations each time you submit the form.
+* GET makes the url too long.if the params you send for a request is a picture,the url chould be a long string.
+
+### cookie & session
+> These two things are both for storing the data for a HTTP request.
+
+## 3.Server
+### authority
+user owns files.if you use your own server this is ok,but if you use  shared web-hosting server then you need to observe the right the user owns(it might cause some terrible issuses in your files).
+
+### instantly search(Ajax can make it!)
+google use this technology it means when you type the things you want to search every character you input will cause a HTTP request and it return to your browser instantly.
+
+
+## 4. XML
+> xml is a HTML-like file to store data.
+
+### DOM
+DOM is the shortcut of the **document object model**.
+
+### Good & Bad
+* Define your data structure,and you can change the structure.
+* Capability of searching by using XPATH.
+* You can use a XML to take place of a DB,but just for a resonable size of data.
+* XML need to be read from the disk,so the performence is worse than DB.
+
+
+### Content Models
+* Element Content
+    * `<student><status>...<status></student>`
+* Parsed Character Data
+    * `<name>xue hao</name>` 
+* Mixed Content
+    * `<name>Xue <initial>D<initial> Hao</name>` 
+* No Content
+    * `<dorm/>` 
+
+
+### To write a XML file:
+* Declaration of a XML file: `<?xml version="1.0" encoding="UTF-8"?>`
+* Use for common: `<!-- -->`
+* There is only one root element.
+* Any element that is opened must be closed.
+* Attributes
+    * Name
+        * Must start with letter or underscore.
+    * Value:
+        * Can be of several types,but is almost always a string.
+        * An attribute value must be quoted("value"/'value').
+        * Cannot contain < or &, use entities to replace these characters.
+* Entities
+    * Used to "escape" content or include content that is hard to enter or repeated frequently
+    * Five pre-defined entities:
+        * `&amp; -> '&'`
+        * `&lt; -> '<'`
+        * `&gt; -> '>'`
+        * `&apos; -> '''`
+        * `&quot; -> '"'`
+    * Character entities can refer to a single character by unicode number:
+        * `&#x00A9; -> 'coperight icon'`
+    * Must be declared to be legal:
+        * To define a entity for 'space': `<!ENTITY nbsp "&#160;">`
+    * Cannot refer to themselves
+* CData
+    * Parsed in "one chunk" by the XML  parser
+    * Data within is not checked for subelements,entities,etc
+    * Allows you to include badly formed markup or character data that would cause a problem during parsing
+    * Example
+        * including HTML tags in an XML document
+
+### Work with PHP
+> Please check this part in 'hereandthere/php'.
+
+## 5. XPATH
+> A query language to search things in XML.
+
+### use path to locate a attribute or element.
+```
+/child::lectures/child::lecture[@number='0']
+
+/lectures/lecture[@number='0']
+```
+* `child` is the axis
+* `lectures` and `lecture` is some elements
+* `@number='0'` is the predicate, `number` is the attribute of the `lecture`
+* `@` is a shortcut for `attribute`,`child` can be ignored.
+
+
+## 6. Security
+* Cross Site Scripting Attacks
+    * PHP function `htmlspecialchars`: Converting anything potentially dangerous to their entity equivalents,this can make a dangerous script to a normal string.

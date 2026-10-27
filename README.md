@@ -1,8 +1,14 @@
 # ml-math-notes
 
-机器学习与数学的学习记录与分享。
+统一学习笔记仓库。本仓库原为 **ml-math-notes**（机器学习与数学笔记），现已并入其它笔记仓，作为单一学习笔记项目。
 
-## Notebooks
+Unified study-notes hub. This repository started as **ml-math-notes** (machine-learning and math notes) and now also holds the other note repos imported below.
+
+既有的 `notebooks/` 与 `docker/` 保持原样。`docker/run.sh` 仍把**仓库根目录**挂到容器内 `/home/jovyan/work`。
+
+Existing `notebooks/` and `docker/` are unchanged. `docker/run.sh` still mounts the **repository root** at `/home/jovyan/work`.
+
+## ML / Math notebooks
 
 | Notebook | 说明 |
 |----------|------|
@@ -16,7 +22,7 @@
 2. 建议按 Part 顺序运行；`notebooks/viz/` 提供可复用的交互组件
 3. Part 1 / 3 首次运行需联网下载小模型（DistilBERT、GPT-2 等）
 
-## Docker 环境
+## Docker
 
 `docker/` 下是 Jupyter + Transformers 环境（含 PyTorch、TensorFlow、plotly、anywidget、ipywidgets）：
 
@@ -57,3 +63,74 @@ cd docker
 >   https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/brown.zip
 > unzip -qo .cache/nltk_data/corpora/brown.zip -d .cache/nltk_data/corpora
 > ```
+
+## topics/compute-networking
+
+来自 [dfx-note](https://github.com/darkframemaster/dfx-note) 的 `compute-networking/`（分支 `master`）。文件名按原样保留。
+
+Imported from [dfx-note](https://github.com/darkframemaster/dfx-note) `compute-networking/` (branch `master`). Original filenames are unchanged.
+
+| 文件 | 说明 |
+|------|------|
+| [ComputerNetwoking.md](topics/compute-networking/ComputerNetwoking.md) | 计算机网络笔记（考试、面试，以及工作中遇到的网络问题；文件名保留原文拼写） |
+| [HTTP.md](topics/compute-networking/HTTP.md) | HTTP：非持续/持续连接，以及请求报文格式 |
+
+## topics/sklearn
+
+来自 [notes](https://github.com/darkframemaster/notes) 的 `sklearn_tutorial/`（分支 `master`），放到 `topics/sklearn/`。
+
+Imported from [notes](https://github.com/darkframemaster/notes) `sklearn_tutorial/` (branch `master`), placed at `topics/sklearn/`.
+
+| 文件 | 说明 |
+|------|------|
+| [intro.ipynb](topics/sklearn/intro.ipynb) | scikit-learn 入门：加载 iris 与 digits（笔记本原标题为「数据加载」「监督学习：从高维观察预测输出变量」） |
+
+## archive/here-and-there
+
+2016–2019 年的历史笔记合集（源仓库创建于 2016-04，最后推送于 2019-11）。来自 [here-and-there](https://github.com/darkframemaster/here-and-there)（分支 `master`）。总说明见 [README.mkd](archive/here-and-there/README.mkd)。
+
+Historical dump from 2016–2019 (source repo created 2016-04, last push 2019-11), from [here-and-there](https://github.com/darkframemaster/here-and-there) (branch `master`). Overview: [README.mkd](archive/here-and-there/README.mkd).
+
+下面只列顶层主题目录，不展开到每个文件。
+
+Top-level topic folders only:
+
+- [bash](archive/here-and-there/bash)
+- [c](archive/here-and-there/c)
+- [c++](<archive/here-and-there/c++>)
+- [docker](archive/here-and-there/docker)
+- [etcd](archive/here-and-there/etcd)
+- [git](archive/here-and-there/git)
+- [go](archive/here-and-there/go)
+- [html&css](<archive/here-and-there/html&css>)
+- [js](archive/here-and-there/js)
+- [just-for-fun](archive/here-and-there/just-for-fun)
+- [linux](archive/here-and-there/linux)
+- [mongo](archive/here-and-there/mongo)
+- [nginx](archive/here-and-there/nginx)
+- [php](archive/here-and-there/php)
+- [python](archive/here-and-there/python)
+- [reading_note](archive/here-and-there/reading_note)
+- [redis](archive/here-and-there/redis)
+- [ruby](archive/here-and-there/ruby)
+- [scala](archive/here-and-there/scala)
+- [SQL](archive/here-and-there/SQL)
+- [svn](archive/here-and-there/svn)
+- [tensorflow](archive/here-and-there/tensorflow)
+- [tools](archive/here-and-there/tools)
+- [university](archive/here-and-there/university)
+- [web_roadmap](archive/here-and-there/web_roadmap)
+
+未并入的是操作系统元数据、编辑器交换文件、编译出来的 ELF 二进制，以及检出后为空的 gitlink 占位目录 `ruby/rails/blog`（源仓库没有 `.gitmodules`）。笔记正文、图片、字体、课件和示例源码都保留。
+
+Left out: OS metadata, editor swap files, compiled ELF binaries, and the empty gitlink placeholder `ruby/rails/blog` (the source repo has no `.gitmodules`). Notes, images, fonts, course files, and example sources are kept.
+
+## 来源 / Sources
+
+这些源仓库之后会归档。并入的文件按原内容复制，没有改写。
+
+These source repositories will be archived later. Imported files were copied as-is and were not rewritten.
+
+- [darkframemaster/dfx-note](https://github.com/darkframemaster/dfx-note)（`master`）→ `topics/compute-networking/`
+- [darkframemaster/notes](https://github.com/darkframemaster/notes)（`master`）→ `topics/sklearn/`
+- [darkframemaster/here-and-there](https://github.com/darkframemaster/here-and-there)（`master`）→ `archive/here-and-there/`

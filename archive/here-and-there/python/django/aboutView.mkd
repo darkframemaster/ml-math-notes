@@ -1,0 +1,24 @@
+# View Layer
+## url config
+### How Django processes a request
+* Django determines the root URLconf module to use.
+* Django loads that Python model and looks for the variable **urlpatterns**.This should be a Python list of **django.conf.urls.url()** instatnces.
+* Django runs through each URL pattern, in order, and stops at the first one that matches the requested URL.
+* Once one of the regexes matches, Django imports and calls the given view, which is a simple Python function.The view gets passed the following arguments:
+	* An instance of **HttpRequest**.
+	* if the matches regular expression returned no named groups, then the matches from the regular expression are provide as positional arguments.
+	* The keyword arguments are made up of any named groups matched by the regular expression, overridden by any arguments specified in the optional **kwargs** argument to **django.conf.urls.url()**.
+* Error will occur when an exception is raised orno regex matches.
+
+### url patterns
+* No group:
+	* `url(r'^$', views.index)`
+	* `url(r'^news$', views.news)`
+* No named group: with `()` around
+	* `url(r'^articles/([0-9]{2})$', views.articles)`: this will give function `articles` a position argument like `01`,`22`,'12' but not `1` or `123`.
+	* `url(r'^users/([a-z]+)$', views.users)`: this will give function `users` a keyword argument like `yourname`,`myname` but not `123`.
+* named group:	with `<>` in `()`
+	* `url(r'^news/2016/$', views.special_case_2003)`
+	* `url(r'^news/(?P<year>[0-9]{4})/$', views.year_archive)`
+	* `url(r'^news/(?P<year>[0-9]{4})/(?P<month>[0-9]{2}/$')`
+	* `url(r'^news/(?P<year>[0-9]{4})/(?P<month>[0-9]{2}/?P<day>[0-9]{2})/$')`

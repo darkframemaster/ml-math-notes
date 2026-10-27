@@ -1,0 +1,21 @@
+# User for pagekit
+
+## Add pages about user
+User's pages is already exists with pagekit,and you just need to enable these pages.
+
+To add a page about user: 
+
+* Sign to your admin and go to: `Site`->`add pages`->`links`.
+* set URL : choose `User` extension and pick up a view.
+* set type to `link`
+* set title and alias as you like.
+* save
+
+After that, refresh your site(not admin) and you will find the related link is created.
+
+For the `user/registration` page,it need a few more steps:
+
+* Sign to your admin and go to: `User`->`settings`.
+* enable the registration.
+
+Good luck!

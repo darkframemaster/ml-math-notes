@@ -1,0 +1,13 @@
+#Apache2.4 settings for Magento
+* Enable Magento to use the distributed configurationfile `.htaccess` :
+	* `a2enmod rewrite`
+* Edit apache's configuration file: `/etc/apache2/site-available/000-default.conf`,see blow.
+* Restart apache: `service apache2 restart`
+
+Add following code to your config file.
+```
+<Directory "/var/www/html">
+	AllowOverride all
+</Directory>
+```
+All can change the value of `all`.[more details](https://httpd.apache.org/docs/2.4/mod/mod_access_compat.html#order)

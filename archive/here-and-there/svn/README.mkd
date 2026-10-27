@@ -1,0 +1,43 @@
+# SVN
+svn is a version control system.
+
+## Install subversion in ubuntu
+`sudo apt-get update`
+`sudo apt-get install subversion`
+
+## svn server for ubuntu
+You can use ubuntu to create a server enviroment for svn.
+
+Here we use the default access-protocol that svn provide to config the server.
+
+* init a svn repository in your ubuntu server: `sudo svnadmin create /home/svn/yourproject`
+* change the owner of the directories: `sudo chown youracount:youracount -R /home/svn/yourproject`
+* edit file `/home/svn/yourproject/conf/svnserver.conf` set `password-db = passwd`.
+* edit file `/home/svn/yourproject/conf/passwd` add `youracount = yourpassword`
+* run the server: `sudo svnserve -d --foreground -r /home/svn`
+
+## commands
+* get the repo to local enviroment:`svn co svn://hostname/yourproject --username yourname`
+	* `co` is the shortcut of the word `checkout`
+	* It will also work by replaceing the `hostname` to `localhost` or `127.0.0.1` if your server and client is the same machine.
+	* The server is running by using option `-r` with value `/home/svn` so you donnot need to add all the prefix of the path.
+* To add something changs of your workspace: `svn add filename`
+	* It can be both `filename` and `directoryname`
+* To update the changes of local workspace to server: `svn commit -m 'messages about this commit' filename`
+	* It can be both `filename` and `directoryname`
+* To update the changes of server to local workspace: `svn update`
+* To display local modifications in a working copy: `svn diff`
+	* this command can also display the difference between two version or path see `svn help diff`
+* To display the status of working copy files and directories: `svn status [DIR]` or `svn status`
+* To get help of svn command: `svn help [command]` or `svn [command] --help`
+
+## log
+```bash
+#check diff between current version and last commit version
+svn log -rHEAD --diff
+```
+
+## Common Questions
+* Are there something like git-branches.
+* What is the different between `svn diff` and `svn status`
+

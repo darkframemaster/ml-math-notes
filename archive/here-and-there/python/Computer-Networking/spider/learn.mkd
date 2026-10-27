@@ -1,0 +1,88 @@
+##gethtml.py
+###url in python2.7
+using `import urllib2` to include url
+
+####function in urllib2
+`urllib.Request(url)`
+
+`urllib.urlopen(url,data=None,timeout=socket._GLOBAL_DEFAULT_TIMEOUT)` :open the  url link.
+
+`read()` :return the code of the url you opened
+
+>POST 
+`data=urllib.urlencode(values)` :encode values to data
+
+`get_html(url,data)`
+
+>GET
+`data=urllib.urlencode(values)`
+
+`url="http://***.***.***"`
+
+`geturl=url+"?"+data`
+
+`get_html(geturl)`
+ 
+##url_high.py
+###set headers
+>google chrome
+how to get agent and referer:open chrome-->print F12 -->check Network-->click the XXX.jsp-->get the agent and referer
+
+`user_agent='Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36'`
+
+`headers={'User-Agent':user_agent,'Referer':'http://202.118.68.128/'}`
+
+`page=gethtml(url,values,headers)`
+
+>另外headers的一些属性，下面的需要特别注意一下：
+
+* User-Agent : 有些服务器或 Proxy 会通过该值来判断是否是浏览器发出的请求
+* Content-Type : 在使用 REST 接口时，服务器会检查该值，用来确定 HTTP Body 中的内容该怎样解析。
+* application/xml ： 在 XML RPC，如 RESTful/SOAP 调用时使用
+* application/json ： 在 JSON RPC 调用时使用
+* application/x-www-form-urlencoded ： 浏览器提交 Web 表单时使用
+ 
+>在使用服务器提供的 RESTful 或 SOAP 服务时， Content-Type 设置错误会导致服务器拒绝服务
+其他的有必要的可以审查浏览器的headers内容，在构建时写入同样的数据即可。
+
+###set Proxy(代理)
+>urllib2 默认会使用环境变量 http_proxy 来设置 HTTP Proxy。假如一个网站它会检测某一段时间某个IP 的访问次数，如果访问次数过多，它会禁止你的访问。所以你可以设置一些代理服务器来帮助你做工作，每隔一段时间换一个代理，网站君都不知道是谁在捣鬼了，这酸爽！
+
+`def set_Proxy(self)`
+
+###Timeout设置
+>urlopen方法，第三个参数就是timeout的设置，可以设置等待多久超时，为了解决一些网站实在响应过慢而造成的影响。
+如果第二个参数data为空那么要特别指定是timeout是多少，写明形参，如果data已经传入，则不必声明。
+
+`urllib2.urlopen('http://www.baidu.com',timeout=10)`
+
+`urllib2.urlopen('http://www.baidu.com',data,10)`
+
+####HTTP-PUT,DELETE
+PUT:本质上来讲， PUT和POST极为相似，都是向服务器发送数据，但它们之间有一个重要区别，PUT通常指定了资源的存放位置，而POST则没有，POST的数据存放位置由服务器自己决定。
+
+DELETE:删除某一个资源。基本上这个也很少见，不过还是有一些地方比如amazon的S3云服务里面就用的这个方法来删除资源。
+
+>使用 HTTP PUT 和 DELETE ，只能使用比较低层的 httplib 库.
+
+`import urllib2`
+
+`request=urllib2.Request(url,data=data)`
+
+`request.get_method=lambda:'PUT' #or 'DELETE'`
+
+`respense=urllib2.urlopen(request)`
+
+####DebugLog
+>可以通过下面的方法把 Debug Log 打开，这样收发包的内容就会在屏幕上打印出来，方便调试，这个也不太常用
+
+`def DebugLog(self)`
+
+##url_error.py
+###URLError
+为什么会有URLError:
+* 网络无连接，本机无法上网
+* 连接不到特定的服务器
+* 服务器不存在
+
+	
